@@ -24,7 +24,7 @@ To run the scripts, the data directory for the user must be changed in **`0-conf
 * `8-analysis-data.R` : with all potential mediators, outcomes, and covariates to create full analysis data sets for different age groups (monthly, bimonthly, quarterly, biannually, and annually)
 
 
-**`2-analysis` :** folder containing analysis scripts. To rerun all scripts in this subdirectory, run the bash script `*0-analysis-bash.sh`.    
+**`2-analysis` :** folder containing analysis scripts. To rerun all scripts in this subdirectory, run the bash script `0-analysis-bash.sh`.    
 * `1-aim1-stratified.R` : obtain total effects of IPTp-SP vs. DP on quarterly growth Z-scores and incidences of stunting and wasting (aim 1)   
 * `2a-intervention-mediator-analysis.R` : obtain intervention-mediator effects   
 * `2b-mediator-outcome-analysis.R` : obtain mediator-outcome effects   
@@ -32,7 +32,7 @@ To run the scripts, the data directory for the user must be changed in **`0-conf
 * `4-sensitivity-analysis.R` : test unmeasured mediator-outcome confounding   
 
 
-**`3-figure-scripts` :** folder containing figure scripts. To rerun all scripts in this subdirectory, run the bash script `*0-fig-bash.sh`.    
+**`3-figure-scripts` :** folder containing figure scripts. To rerun all scripts in this subdirectory, run the bash script `0-fig-bash.sh`.    
 * `1a-fig-zscore-distributions.R` :  quarterly distributions of LAZ and WLZ   
 * `1b-fig-incidence-quarterly.R` : quarterly distributions of stunting and wasting incidences    
 * `2-fig-z-score-by-age.R` : monthly distributions of LAZ and WLZ by age and gestational age-corrected age (CA)    
