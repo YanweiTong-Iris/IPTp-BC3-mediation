@@ -82,12 +82,6 @@ maternal_med_covariate_list = c("antibacterial", "betalactam", "fluoroquinolone"
 maternal_nonmalaria_covariate_list = c("febrile.illness", "non.malarial.febrile", "respiratory.diagnosed", "genitourinary.diagnosed",
                                        "gastrointestinal.diagnosed", "integumentary.diagnosed", "abdpain.diagnosed", "headache.diagnosed","other.pain.diagnosed")
 
-full_covariate_list = c("sex", "enrollage", "maternal_agecat", "Gravidity", "gravidity_cat", "preterm", "incidentmalaria", "anymalaria", "mother_height", 
-                   "mother_heightcat", "gestational_weightchange", "GWC_Z","gestational_weightchange_cat", "wet_season", "incidentmalaria_season", "LBW", 
-                   "anyHP", "anyhb", "anemia_cat", "antibacterial", "betalactam", "fluoroquinolone", "sulfonamide", "antibacterial_other", "antimalarial",
-                   "antiparasitic", "antiviral", "anymed", "febrile.illness", "non.malarial.febrile", "respiratory.diagnosed", "genitourinary.diagnosed",
-                   "gastrointestinal.diagnosed", "integumentary.diagnosed", "abdpain.diagnosed", "headache.diagnosed","other.pain.diagnosed")
-
 main_covariate_list = c("sex", "enrollage", "maternal_agecat", "GAenroll", "Gravidity", "gravidity_cat", "LBW", "anyHP", "preterm", "birthweight", "birthweight_kg", 
                         "birthlength", "birthlength_m","mother_height", "mother_heightcat", "gestational_weightchange", "GWC_Z","gestational_weightchange_cat", "wet_season", 
                         "incidentmalaria", "anymalaria","incidentmalaria_season", "anyhb_28", "anemia_28", "anemia_28binary", "anyhb_36", "anemia_36" , 
