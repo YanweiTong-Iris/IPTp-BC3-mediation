@@ -66,6 +66,3 @@ incidence_plot
 ggsave(incidence_plot, filename = paste0(here::here(), "/5-figures/plot-incidence-3m.pdf"),
        width=6, height=4)
 
-
-
-

@@ -20,7 +20,7 @@ IM_results =  readRDS(paste0(results_path,"IM-MO-stratified/intervention_mediato
     mediator == "anemia_28binary" ~ "Anemia",
     mediator == "gestational_weightchange" ~ "Gestational weight\nchange (kg)",
     mediator == "placentalmal" ~ "Placental malaria",
-    mediator == "birthweight_kg" ~ "Birthweight (kg)",
+    mediator == "birthweight_kg" ~ "Birth weight (kg)",
     mediator == "birthlength" ~ "Birth length (cm)",
     mediator == "preterm" ~ "Pre-term birth",
     mediator == "LBW" ~ "Low birthweight",
@@ -52,7 +52,7 @@ IM_results =  readRDS(paste0(results_path,"IM-MO-stratified/intervention_mediato
       "SCF",
       "Pre-term birth",
       "Birth length (cm)",
-      "Birthweight (kg)",
+      "Birth weight (kg)",
       "Low birthweight"
     ))
   ) %>% 
@@ -150,7 +150,7 @@ olink_plot <- ggplot(IM_Olink %>% mutate(mediator_remark = fct_rev(mediator_rema
   ylab("Mean difference (95% CI)")+
   theme(axis.title.y = element_blank(),
         legend.title = element_blank(),
-        plot.title = element_text(hjust = -0.35, size = 12)) +
+        plot.title = element_text(hjust = -0.22, size = 12)) +
   ggtitle("C) Inflammation-related mediators")
 olink_plot
 
