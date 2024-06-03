@@ -67,8 +67,6 @@ Olink_broad = Olink_broad %>%
 #modify Olink marker name (cannot take numerical values as initials)
 colnames(Olink_broad)[which(names(Olink_broad) == "4E_BP1")] <- "F4E_BP1"
 
-aim1_covariate_list = c("sex", "enrollage", "maternal_agecat", "Gravidity", "gravidity_cat", "preterm", "incidentmalaria", "anymalaria", "mother_height", 
-                        "mother_heightcat", "gestational_weightchange", "GWC_Z","gestational_weightchange_cat", "wet_season")
 
 full_maternal_covariate_list = c("anyHP", "anyhb", "anemia_cat", "antibacterial", "betalactam", "fluoroquinolone", "sulfonamide", "antibacterial_other", "antimalarial",
                             "antiparasitic", "antiviral", "anymed", "febrile.illness", "non.malarial.febrile", "respiratory.diagnosed", "genitourinary.diagnosed",
