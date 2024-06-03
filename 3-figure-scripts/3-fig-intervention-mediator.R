@@ -23,7 +23,6 @@ IM_results =  readRDS(paste0(results_path,"IM-MO-stratified/intervention_mediato
     mediator == "birthweight_kg" ~ "Birthweight (kg)",
     mediator == "birthlength" ~ "Birth length (cm)",
     mediator == "preterm" ~ "Pre-term birth",
-    #mediator == "SCF" ~ "Stem cell factor",
     mediator == "LBW" ~ "Low birthweight",
     TRUE ~ mediator
   )) %>%

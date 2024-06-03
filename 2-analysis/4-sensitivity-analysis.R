@@ -2,7 +2,6 @@
 # IPTp and child growth
 # Script for sensitivity analysis to check unmeasured 
 # mediator-outcome confounding
-# Last updated: May 27, 2024
 ################################################################
 
 rm(list = ls())

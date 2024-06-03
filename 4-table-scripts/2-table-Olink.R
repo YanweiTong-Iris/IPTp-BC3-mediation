@@ -93,6 +93,6 @@ table_Olink["Significant mediator-outcome results"][row.names(table_Olink) %in% 
 table_Olink["Included in the mediation analysis"][row.names(table_Olink) %in% Olink_mediation,] <- "√"
 
 # View the table
-View(table_Olink)
+# View(table_Olink)
 write.csv(table_Olink,  paste0(tables_path,"table_Olink_inclusion.csv"))
 

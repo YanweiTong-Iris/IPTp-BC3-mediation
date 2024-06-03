@@ -7,7 +7,6 @@
 rm(list=ls())
 source(paste0(here::here(), "/0-config.R"))
 library('data.table')
-library(purrr)
 
 #Loading the data
 z.plot <- readRDS(paste0(data_path, "cleaned_zscores_data.RDS")) %>% 

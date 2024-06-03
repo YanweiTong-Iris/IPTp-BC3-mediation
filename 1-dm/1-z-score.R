@@ -1,7 +1,6 @@
 ################################################################
 # IPTp and child growth
 # Script for calculating Zscores using anthro_zscores package
-# Last updated: January 20, 2023
 ################################################################
 
 rm(list=ls())

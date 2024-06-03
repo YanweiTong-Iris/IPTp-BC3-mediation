@@ -36,10 +36,6 @@ library(doRNG)
 library(lubridate)
 
 # FILL THE DATA DIRECTORY
-# if(Sys.getenv("USER")=="jadebc"){
-#   box_path = "/Users/jadebc/Library/CloudStorage/Box-Box/BC3 databases_Jade/"
-# } 
-
 if(Sys.getenv("USER") == "yanweitong"){ 
   box_path = "/Users/yanweitong/Library/CloudStorage/Box-Box/BC3 databases_Jade/"
 }

@@ -1,7 +1,6 @@
 ################################################################
 # IPTp and child growth
 # Script for intervention-mediator analysis
-# Last updated: Oct 3, 2023
 ################################################################
 
 rm(list = ls())

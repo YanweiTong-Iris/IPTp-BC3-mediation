@@ -1,7 +1,6 @@
 ################################################################
 # IPTp and child growth
 # Script for Aim1: estimate the impact of IPTp on child growth
-# Last updated: Oct 14, 2023
 ################################################################
 
 rm(list = ls())

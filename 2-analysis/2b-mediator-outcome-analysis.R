@@ -1,7 +1,6 @@
 ################################################################
 # IPTp and child growth
 # Script for intervention-mediator and mediator-outcome analysis
-# Last updated: June 4, 2023
 ################################################################
 
 rm(list = ls())
@@ -146,28 +145,15 @@ mediator_analysis <- function(data, time_unit, age_category, age_group, model, i
     
 
     # Compose the formula
-    # if (model == "mediator-outcome" &
-    #     independent_var %in% c("preterm", "LBW", "birthweight", "birthlength", "gestational_weightchange")) {
        adjusted <- 1
        confounder <- "full"
       if (gravidity_strata == "all") {
-        # if(independent_var == "anemia_28binary"){
-        # formula <-
-        #   as.formula(paste(dependent_var, "~",independent_var,
-        #      "+ Txarm + sex + gravidity_cat+ GAenroll + enrollage + APdichenroll + educdich + wealthcat +placentalmal+ haz_quarter"))
-        # } else{
           formula <-
             as.formula(paste(dependent_var, "~",independent_var,
                              "+ Txarm + sex + gravidity_cat+ GAenroll + enrollage + APdichenroll + educdich + wealthcat"))
-        #}
       } else{
-        # if(independent_var == "anemia_28binary"){
-        #   formula <-as.formula(paste(dependent_var,"~",independent_var,
-        #       "+ Txarm + sex + GAenroll + enrollage + APdichenroll + educdich + wealthcat +placentalmal+ haz_quarter"))
-        # } else{
           formula <-as.formula(paste(dependent_var,"~",independent_var,
                                      "+ Txarm + sex + GAenroll + enrollage + APdichenroll + educdich + wealthcat"))
-        #}
       }
     
     print(formula)
@@ -309,10 +295,6 @@ mediator_analysis <- function(data, time_unit, age_category, age_group, model, i
     )
   }
   rownames(output) <- NULL
-  #output_list[[i]] = output
-  #output_df = bind_rows(output_list)
-  #print(output_df)
-  #return(output_df)
   return(output)
 }
 

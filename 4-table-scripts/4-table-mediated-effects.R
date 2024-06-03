@@ -16,11 +16,10 @@ result_single_mediator_zscore = readRDS(paste0(results_path,"/aim2-stratified/ai
   dplyr::select(mediator, outcome, n, age_group, gravidae, 
                 ACME_average, ACME_average_lower_CI, ACME_average_upper_CI) %>%
   mutate(age_group = factor(age_group, levels = c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months"))) %>%
-  # filter(mediator %in% c(
-  #   "anemia_28binary", "gestational_weightchange", 
-  #   "placentalmal", "preterm",
-  #   "birthlength","birthweight_kg"
-  # )) %>% 
+  filter(!mediator %in% c(
+    "antibacterial_binary", "betalactam_binary",
+    "birthweight", "GWC_Z"
+  )) %>% 
   mutate(mediator_label = case_when(
     mediator == "anemia_28binary" ~ "Anemia",
     mediator == "gestational_weightchange" ~ "Gestational weight change (kg)",

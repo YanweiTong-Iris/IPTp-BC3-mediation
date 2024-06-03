@@ -1,7 +1,7 @@
 ########################################
 #Coding covariates needed for analysis
 #Creates variables for wet season and 
-#month of measurement 
+# month of measurement 
 ########################################
 
 rm(list=ls())

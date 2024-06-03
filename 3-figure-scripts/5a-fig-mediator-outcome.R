@@ -67,8 +67,6 @@ zscore_plotdata = process_data(data = MO_zscore_3mo, outcome_type="continuous") 
 
 
 
-
-
 # make plots -------------------------------------------------------------------
 # drop birth length at birth
 drop <- which(zscore_plotdata$independent_variable=="birthlength" & zscore_plotdata$age_group=="Birth" &

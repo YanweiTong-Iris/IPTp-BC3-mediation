@@ -1,7 +1,6 @@
 ################################################################
 # IPTp and child growth
-# Script for preparing the data sets for aim1 analysis
-# Last updated: June 4, 2023
+# Script for preparing the data sets for aim1 & 2 analysis
 ################################################################
 
 rm(list = ls())
@@ -141,9 +140,9 @@ ages <- dfz %>% dplyr::select(id, uniqueid, age, agecat, agedays, agecat_birth, 
 
 # weight change = weight of week 36- weight of week 20
 # GWC-z at wk 36 based on https://www.thelancet.com/journals/ebiom/article/PIIS2352-3964(22)00055-X/fulltext
-#excel formula =(1.382972-56.14743*POWER(gestational week,-2)+0.2787683*POWER(gestational week,0.5))
+# excel formula =(1.382972-56.14743*POWER(gestational week,-2)+0.2787683*POWER(gestational week,0.5))
 GWC_mean = (1.382972-56.14743*(36^(-2)))+0.2787683*(36^0.5)
-#excel formula = 0.2501993731+142.4297879*POWER(gestational week,-2)-61.45345*POWER(gestational week,-2)*LN(gestational week)
+# excel formula = 0.2501993731+142.4297879*POWER(gestational week,-2)-61.45345*POWER(gestational week,-2)*LN(gestational week)
 GWC_SD = 0.2501993731+142.4297879*(36^(-2))-61.45345*(36^(-2))*log(36)
 # height & delta weight cutoffs at 1st, 2nd, and 3rd quantile
 

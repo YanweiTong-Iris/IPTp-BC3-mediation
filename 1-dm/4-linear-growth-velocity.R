@@ -1,15 +1,12 @@
 ################################################################
 # IPTp and child growth
 # Script for calculating linear growth velocity
-# Last updated: Feburary 27, 2023
 ################################################################
 
 rm(list = ls())
 source(paste0(here::here(), "/0-config.R"))
 
 # load data -----------------------------------------
-
-#df = read.csv(paste0(box_path,"/Pediatric/BC-3 childs all visit database FINAL_withIncidentNMF.csv"))
 
 dfz = readRDS(paste0(box_path, "/processed_data/outcome_zscores_data.RDS"))
 

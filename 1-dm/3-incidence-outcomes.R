@@ -3,6 +3,7 @@
 # Create binary indicators for incidence variables
 # Within different age categories
 ################################################################
+
 rm(list=ls())
 source(paste0(here::here(), "/0-config.R"))
 

@@ -1,8 +1,7 @@
 ################################################################
 # IPTp and child growth
 # Script that generates data that will be used to calculate 
-#incidence and prevalence
-# Last updated: March 27, 2023
+# incidence and prevalence
 ################################################################
 
 
@@ -47,29 +46,6 @@ merged_data <- merge(zscores_data, SGA_data, by.x = "id", by.y = "Id", all.x = T
 
 saveRDS(merged_data, paste0(data_path, "outcome_zscores_covariates.RDS"))
 
-
-# # taking only the months from the date string
-# zscores_data$month_string <- gsub("[^A-Za-z]+", "", zscores_data$date) 
-# 
-# # Create new variable for wet_season using month_string
-# zscores_data$wet_season <- ifelse(zscores_data$month_string %in% c("mar", "apr", "may", "oct", "nov", "dec"), 1, 0)
-# 
-# 
-# # Create new variable for season of malaria infection 
-# zscores_data$incidentmalaria_season <- 0
-# 
-# # Replace incidentmalaria_season values based on incidentmalaria and wet_season
-# zscores_data$incidentmalaria_season[zscores_data$incidentmalaria == 1 & zscores_data$wet_season == 1] <- 1
-# zscores_data$incidentmalaria_season[zscores_data$incidentmalaria == 1 & zscores_data$wet_season == 0] <- 2
-# 
-# zscores_data = zscores_data %>% mutate(incidentmalaria_season = case_when(
-#   incidentmalaria_season == 0 ~ "no incidence",
-#   incidentmalaria_season == 1 ~ "incidence in wet season",
-#   incidentmalaria_season == 2 ~ "incidence in dry season",
-# ))
-
-# check props of incident malaria in each season 
-#prop.table(table(data$incidentmalaria_season)) 
 
 # Scramble the treatment arm
 set.seed(10)

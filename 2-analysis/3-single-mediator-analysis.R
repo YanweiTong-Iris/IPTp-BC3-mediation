@@ -2,7 +2,6 @@
 # IPTp and child growth
 # Script for single-mediator analysis
 # (Txarm as the exposure; sratified by gravidity)
-# Last updated: Oct 16, 2023
 ################################################################
 
 rm(list = ls())
