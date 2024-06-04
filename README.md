@@ -32,7 +32,7 @@ To run the scripts, the data directory for the user must be changed in **`0-conf
 * `4-sensitivity-analysis.R` : test unmeasured mediator-outcome confounding   
 
 
-**`3-figure-scripts` :** folder containing figure scripts. To rerun all scripts in this subdirectory, run the bash script `0-fig-bash.sh`.    
+**`3-figure-scripts` :** folder containing figure scripts. First, run `2-analysis/0-analysis-bash.sh` to recreate the result data sets in `7-results`. Then, to rerun all scripts in this subdirectory, run the bash script `0-fig-bash.sh`.     
 * `1a-fig-zscore-distributions.R` :  quarterly distributions of LAZ and WLZ   
 * `1b-fig-incidence-quarterly.R` : quarterly distributions of stunting and wasting incidences    
 * `2-fig-z-score-by-age.R` : monthly distributions of LAZ and WLZ by age and gestational age-corrected age (CA)    
@@ -45,7 +45,7 @@ To run the scripts, the data directory for the user must be changed in **`0-conf
 * `6c-fig-mediation-Olink.R` : total effects and mediated effects on incidences of child stunting and wasting    
 
 
-**`4-table-scripts` :** folder containing table scripts.   
+**`4-table-scripts` :** folder containing table scripts. Before running scripts in this subdirectory, first run `2-analysis/0-analysis-bash.sh` to recreate the result data sets in `7-results`.    
 * `1-table-total-effect-binary.R` : unadjusted total effects of IPTp on incidence outcomes   
 * `2-table-Olink.R` : table for Olink inflammation biomarker inclusion for intervention-mediator, mediator-outcome, and mediation analyses   
 * `3-table-mediator-outcome.R` : mediator-outcome associations between non-Olink mediators and incidence outcomes   

@@ -43,9 +43,9 @@ for (util in util_functions) {
 } 
 
 # FILL THE DATA DIRECTORY
-if(Sys.getenv("USER") == "yanweitong"){ 
-  box_path = "/Users/yanweitong/Library/CloudStorage/Box-Box/BC3 databases_Jade/"
-}
+# if(Sys.getenv("USER") == ""){ 
+#   box_path = "/Users/"
+# }
 
 data_path = paste0(box_path,"processed_data/")
 
