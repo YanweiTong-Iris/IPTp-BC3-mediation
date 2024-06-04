@@ -11,7 +11,7 @@ library(circlize)
 MO_zscore_3mo = readRDS(paste0(results_path,"IM-MO-stratified/mediator_outcome_zscore_results_3mo_stratified.RDS")) %>%
   mutate(age_group = factor(age_group, levels = c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months")))
 
-zscore_plot_data <- MO_zscore_3mo %>%filter(!independent_variable %in% 
+zscore_plot_data <- MO_zscore_3mo %>% filter(!independent_variable %in% 
                                   c("anemia_28binary", 
                                     "birthweight",
                                     "birthlength",
@@ -98,16 +98,18 @@ make_heatmap <- function(plot_data, outcome_name, outcome_type){
           clustering_method_rows = "ward.D",
           row_names_gp = gpar(fontsize = 9),
           na_col = "grey90",
-          col = col_fun
+          col = col_fun,
+          
           
           # add asterisk to the heat map tiles that are significant
-          # cell_fun = function(j, i, x, y, w, h, fill) {
-          #   if(signif_matrix[i, j] == "Significant") {
-          #     grid.points(x, y, pch = 8, gp = gpar(fontsize = 7))
-          #   } else {
-          #     grid.text("", x, y)
-          #   }
-          # }
+            cell_fun = ifelse(outcome_type == "continuous", function(j, i, x, y, w, h, fill) {
+              if(signif_matrix[i, j] == "Significant") {
+                grid.points(x, y, pch = 8, gp = gpar(fontsize = 7))
+              } else {
+                grid.text("", x, y)
+              }
+            }, NA)
+        
           ) 
 
 }
