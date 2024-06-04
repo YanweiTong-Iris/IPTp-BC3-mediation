@@ -127,12 +127,6 @@ process_data <- function(input_data, outcome, outcome_type){
     mutate(mediator="Total effect",
            measure = "Total effect") 
   
-  # if(outcome_type=="binary" & outcome=="whz"){
-  #   output_total = output_total %>% 
-  #     mutate(average = exp(average), 
-  #            average_lower_CI = exp(average_lower_CI),
-  #            average_upper_CI = exp(average_upper_CI))
-  # }
   
   output_data <- bind_rows(output_acme, output_total)  %>% 
     mutate(mediator_label = case_when(
@@ -199,8 +193,7 @@ process_data <- function(input_data, outcome, outcome_type){
                                                               "Birth weight",
                                                               "Low birth weight",
                                                               "Total effect"))) %>% 
-    mutate(measure = ifelse(measure=="ACME", "Mediated effect",
-                            measure)) 
+    mutate(measure = ifelse(measure=="ACME", "Mediated effect", measure)) 
   
   if(outcome_type=="binary"){
     
@@ -297,7 +290,8 @@ stunt_plot <- ggplot(stunt_l %>% filter(measure!="Direct effect"),
         legend.title = element_blank(),
         legend.position = "none",
         panel.grid.minor = element_line(color = "white", size = 0),
-        panel.grid.major = element_line(size=0.2)) +
+        panel.grid.major = element_line(size=0.2),
+        plot.title = element_text(hjust = -0.18, size = 12)) +
   ggtitle("A) Stunting")
 
 stunt_plot
@@ -339,7 +333,8 @@ waste_plot <- ggplot(waste_l  %>% filter(measure!="Direct effect"),
         legend.title = element_blank(),
         legend.position = "none",
         panel.grid.minor = element_line(color = "white", size = 0),
-        panel.grid.major = element_line(size=0.2)) +
+        panel.grid.major = element_line(size=0.2),
+        plot.title = element_text(hjust = -0.18, size = 12)) +
   
   ggtitle("B) Wasting")
 
