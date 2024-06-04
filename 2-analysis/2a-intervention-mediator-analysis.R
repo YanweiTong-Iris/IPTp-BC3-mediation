@@ -18,8 +18,7 @@ data_zscore_quarterly = readRDS(paste0(data_path, "analysis_data_zscore_quarterl
 
 age_list_3mo_birth = factor(c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months"), levels= c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months"))
 
-binary_mediators_main = c("anemia_28binary", "antibacterial_binary", "betalactam_binary",
-                         "placentalmal", "preterm", "LBW")
+binary_mediators_main = c("anemia_28binary", "placentalmal", "preterm", "LBW")
 
 continuous_mediator = c("gestational_weightchange", "GWC_Z","birthweight", "birthlength", "birthweight_kg")
 
@@ -54,7 +53,7 @@ Olink_mediators = c("IL8","VEGFA", "CD8A", "CDCP1", "CD244", "IL7", "OPG", "LAP_
 
 
 # Args/Options:
-# mediator: "anemia_28binary", "antibacterial_binary", "betalactam_binary", "placentalmal", "preterm", "LBW",
+# mediator: "anemia_28binary", "placentalmal", "preterm", "LBW",
 #           "gestational_weightchange", "GWC_Z","birthweight", "birthlength", "birthweight_kg", 
 #           "IL8","VEGFA", "CD8A", "CDCP1", "CD244", "IL7", "OPG", "LAP_TGF_beta_1",
 #           "uPA",	"IL6",	"IL_17C",	"MCP_1",	"CXCL11",	"AXIN1", "TRAIL",	"CXCL9",	"CST5",
@@ -230,8 +229,6 @@ intervention_mediator_analysis <- function(data, mediator, mediator_type) {
       mediator == "gestational_weightchange" ~ "Gestational weight change (kg)",
       mediator == "GWC_Z" ~ "Gestational weight change Z-score",
       mediator == "placentalmal" ~ "Placental malaria (blood or histopath)",
-      mediator == "antibacterial_binary" ~ "Any antibacterial use",
-      mediator == "betalactam_binary" ~ "Beta-lactam use",
       mediator == "birthweight" ~ "Birth weight (g)",
       mediator == "birthweight_kg" ~ "Birth weight (kg)",
       mediator == "birthlength" ~ "Birth length (cm)",

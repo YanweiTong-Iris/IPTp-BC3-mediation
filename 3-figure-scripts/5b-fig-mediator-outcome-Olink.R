@@ -13,8 +13,6 @@ MO_zscore_3mo = readRDS(paste0(results_path,"IM-MO-stratified/mediator_outcome_z
 
 zscore_plot_data <- MO_zscore_3mo %>%filter(!independent_variable %in% 
                                   c("anemia_28binary", 
-                                    "antibacterial_binary",
-                                    "betalactam_binary",
                                     "birthweight",
                                     "birthlength",
                                     "birthweight_kg", 
@@ -35,31 +33,12 @@ zscore_plot_data <- MO_zscore_3mo %>%filter(!independent_variable %in%
   mutate(independent_variable = fct_rev(independent_variable))
   
 
-# colors <- c("#04388c", "#3b7eeb", "white", "#e38f22", "#6b3d01")
-# 
-# plot <- ggplot(plot_data ,
-#        aes(x = age_group, y= independent_variable)) +
-#   geom_tile(aes(fill = point_estimate), col="black", linewidth=0.2) +
-#   scale_fill_gradientn("Mean difference\nin z-score", colors = colors, values = scales::rescale(c(-2, -0.5, 0, 0.5, 2))) +
-#   facet_grid(~outcome) + 
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 90, hjust = 1),
-#         # panel.border = element_rect(color = "black", fill = NA),
-#         axis.title = element_blank(),
-#         strip.text = element_text(face = "bold"),
-#         legend.title = element_text(size=8))    
-# plot
-#         
-# ggsave(plot, filename = paste0(figure_path, "plot-med-outcome-zscore-olink.pdf"),
-#        width=6.5, height=9)
 
 MO_binary_3mo = readRDS(paste0(results_path,"IM-MO-stratified/mediator_outcome_incidence_results_3mo_stratified.RDS")) %>%
   mutate(age_group = factor(age_group, levels = c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months")))
 
 binary_plot_data <- MO_binary_3mo %>%filter(!independent_variable %in% 
                                               c("anemia_28binary", 
-                                                "antibacterial_binary",
-                                                "betalactam_binary",
                                                 "birthweight",
                                                 "birthlength",
                                                 "birthweight_kg", 

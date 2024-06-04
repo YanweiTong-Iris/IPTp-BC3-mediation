@@ -29,7 +29,7 @@ outcome_incidence_3mo = c(
 
 age_list_3mo_birth = factor(c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months"), levels= c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months"))
 
-binary_maternal_mediators = c("antibacterial_binary", "betalactam_binary", "LBW", "preterm", "placentalmal", "anemia_28binary")
+binary_maternal_mediators = c("LBW", "preterm", "placentalmal", "anemia_28binary")
 
 continuous_mediator = c("gestational_weightchange", "birthweight_kg", "birthweight", "birthlength", 
                         "SCF", "CD6", "TNFRSF9", "TWEAK", "OPG", 
@@ -49,7 +49,6 @@ Olink_mediator = c("SCF", "CD6", "TNFRSF9", "TWEAK", "OPG",
 # Intervention: Txarm OR rand_Txarm (for blind testing)
 # Mediators of interest: low birth weight (LBW), preterm birth (preterm), 
 #                        placental malaria (placentalmal), non-malarial prenatal infection, 
-#                        anti-microbial use ("antibacterial_binary", "betalactam_binary"), 
 #                        maternal anemia ("anemia_28binary"),
 #                        gestational weight gain ("gestational_weightchange"), 
 #                        and maternal inflammation ("SCF", "CD6", "TNFRSF9", "TWEAK", "OPG", 

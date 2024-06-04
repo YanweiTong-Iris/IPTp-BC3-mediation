@@ -32,7 +32,6 @@ age_list_3mo_birth = factor(c("Birth", "1 day-3 months", ">3-6 months", ">6-9 mo
 
 
 maternal_mediators_main = c("anemia_28binary", "gestational_weightchange",
-                            "antibacterial_binary", "betalactam_binary",
                             "placentalmal", "preterm", "LBW",
                             "birthweight", "birthlength", "birthweight_kg",
                             # !NOTE: 4E_BP1 was renamed as F4E_BP1!
@@ -95,7 +94,7 @@ Olink_mediators = c("IL8","VEGFA", "CD8A", "CDCP1", "CD244", "IL7", "OPG", "LAP_
 # dependent_var: y of the formula (as a string)
 # variable to choose: 
 # intervention: "Txarm", "rand_Txarm"
-# mediator: "anemia_28binary", "antibacterial_binary", "betalactam_binary", "placentalmal", "preterm", "LBW",
+# mediator: "anemia_28binary", "placentalmal", "preterm", "LBW",
 #           "gestational_weightchange", "GWC_Z","birthweight", "birthlength", "birthweight_kg", 
 #           "IL8","VEGFA", "CD8A", "CDCP1", "CD244", "IL7", "OPG", "LAP_TGF_beta_1",
 #           "uPA",	"IL6",	"IL_17C",	"MCP_1",	"CXCL11",	"AXIN1", "TRAIL",	"CXCL9",	"CST5",
@@ -168,9 +167,8 @@ mediator_analysis <- function(data, time_unit, age_category, age_group, model, i
       }
     }
 
-    if(independent_var %in% c("anemia_28binary", "antibacterial_binary",
-                             "betalactam_binary", "placentalmal",
-                             "preterm", "LBW", "anymalaria", "new_anymalaria")){
+    if(independent_var %in% c("anemia_28binary", "placentalmal",
+                             "preterm", "LBW", "anymalaria")){
       counts = table(data_stratified[[independent_var]])
       print(counts)
       if (!(length(unique(data_stratified[[independent_var]])) >= 2 && all(counts >= 10))) {
@@ -240,8 +238,6 @@ mediator_analysis <- function(data, time_unit, age_category, age_group, model, i
     independent_var == "LBW" | dependent_var == "LBW" ~ "Low birth weight",
     independent_var == "preterm" | dependent_var == "preterm" ~ "Pre-term birth",
     independent_var == "gestational_weightchange" | dependent_var == "gestational_weightchange" ~ "Gestational weight change (kg)",
-    independent_var == "antibacterial_binary" | dependent_var == "antibacterial_binary" ~ "Any antibacterial use",
-    independent_var == "betalactam_binary" | dependent_var == "betalactam_binary" ~ "Beta-lactam use",
     independent_var == "SCF" | dependent_var == "betalactam_binary" ~ "Stem cell factor",
     independent_var == "birthweight" | dependent_var == "birthweight" ~ "Birth weight",
     independent_var == "birthweight_kg" | dependent_var == "birthweight_kg" ~ "Birth weight (kg)",

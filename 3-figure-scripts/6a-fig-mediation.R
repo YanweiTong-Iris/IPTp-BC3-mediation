@@ -109,7 +109,6 @@ process_data <- function(input_data, outcome, outcome_type){
                                                               "Birth weight",
                                                               "Low birth weight",
                                                               "Total effect"))) %>% 
-    filter(!mediator %in% c("antibacterial_binary", "betalactam_binary")) %>% 
     mutate(measure = ifelse(measure=="ACME", "Mediated effect", "Direct effect")) 
   
   # process total effects 
@@ -194,8 +193,7 @@ process_data <- function(input_data, outcome, outcome_type){
                                                               "Birth weight",
                                                               "Low birth weight",
                                                               "Total effect"))) %>% 
-    mutate(measure = ifelse(measure=="ACME", "Mediated effect",
-                            measure)) 
+    mutate(measure = ifelse(measure=="ACME", "Mediated effect", measure)) 
   
 
   if(outcome_type=="binary"){

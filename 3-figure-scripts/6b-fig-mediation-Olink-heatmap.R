@@ -17,8 +17,8 @@ mediation_zscore_3mo = readRDS(paste0(results_path,"/aim2-stratified/aim2_single
                 ADE_average, ADE_average_lower_CI, ADE_average_upper_CI) %>%
   mutate(signif = ifelse (ACME_adj_p < 0.05, "Significant", "Not significant")) %>% 
   mutate(age_group = factor(age_group, levels = c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months"))) %>%
-  filter(!mediator %in% c("anemia_28binary", "antibacterial_binary", "betalactam_binary", "birthweight", 
-                          "birthlength", "birthweight_kg", "gestational_weightchange", "LBW", "placentalmal","preterm")) %>%
+  filter(!mediator %in% c("anemia_28binary", "birthweight", "birthlength", "birthweight_kg", 
+                          "gestational_weightchange", "LBW", "placentalmal","preterm")) %>%
   mutate(outcome_remark = case_when(outcome == "haz_quarter" ~ "Length-for-age Z",
                                     outcome == "whz_quarter" ~ "Weight-for-length Z")) %>%
   mutate(mediator = gsub("_", "-", mediator)) %>%

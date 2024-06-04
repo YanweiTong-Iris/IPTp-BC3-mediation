@@ -33,7 +33,6 @@ results_Olink_wlz = subset(result_Olink_Zscore_3mo, outcome == "whz_quarter")
 process_data <- function(input_data, outcome_type){
   output_data <- input_data %>% 
     filter(! mediator %in% c("anemia_36binary", "birthweight","anemia_28binary",
-                             "antibacterial_binary", "betalactam_binary",
                              "birthlength", "birthweight_kg", "gestational_weightchange",
                              "placentalmal","preterm","LBW")) %>% 
     # filter(age_group %in% c("Birth","1 day-3 months")) %>% 
