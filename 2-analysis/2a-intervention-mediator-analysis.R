@@ -23,15 +23,15 @@ binary_mediators_main = c("anemia_28binary", "placentalmal", "preterm", "LBW")
 continuous_mediator = c("gestational_weightchange", "GWC_Z","birthweight", "birthlength", "birthweight_kg")
 
 # !NOTE: 4E_BP1 was renamed as F4E_BP1!
-Olink_mediators = c("IL8","VEGFA", "CD8A", "CDCP1", "CD244", "IL7", "OPG", "LAP_TGF_beta_1",
-                    "uPA",	"IL6",	"IL_17C",	"MCP_1",	"CXCL11",	"AXIN1", "TRAIL",	"CXCL9",	"CST5",
-                    "OSM", "CXCL1",	"CCL4",	"CD6", "SCF",	"IL18",	"TGF_alpha",	"MCP_4",	"CCL11",
-                    "TNFSF14", "MMP_1", "LIF_R",	"FGF_21",	"CCL19", "IL_10RB", "IL_18R1",
-                    "PD_L1",	"CXCL5",	"TRANCE", "HGF",	"IL_12B",	"MMP_10",	"IL10",	"TNF",
-                    "CCL23",	"CD5",	"CCL3", "Flt3L", "CXCL6", "CXCL10", "F4E_BP1", "SIRT2",	
-                    "CCL28",	"DNER",	"EN_RAGE",	"CD40",	"IFN_gamma", "FGF_19",	"MCP_2",	
-                    "CASP_8",	"CCL25", "CX3CL1", "TNFRSF9",	"TWEAK",	"CCL20",	"ST1A1",	
-                    "STAMBP",	"ADA",	"TNFB",	"CSF_1")
+Olink_mediators = c("IL8", "VEGFA", "CD8A", "CDCP1", "CD244", "IL7", "OPG", "LAP_TGF_beta_1",
+                    "uPA",	"IL6",	"IL_17C",	"MCP_1", "CXCL11", "AXIN1", "TRAIL", "CXCL9", "CST5",
+                    "OSM", "CXCL1", "CCL4",	"CD6", "SCF", "IL18", "TGF_alpha", "MCP_4", "CCL11",
+                    "TNFSF14", "MMP_1", "LIF_R", "FGF_21", "CCL19", "IL_10RB", "IL_18R1",
+                    "PD_L1", "CXCL5", "TRANCE", "HGF", "IL_12B", "MMP_10", "IL10", "TNF",
+                    "CCL23", "CD5",	"CCL3", "Flt3L", "CXCL6", "CXCL10", "F4E_BP1", "SIRT2",	
+                    "CCL28", "DNER", "EN_RAGE",	"CD40",	"IFN_gamma", "FGF_19",	"MCP_2",	
+                    "CASP_8", "CCL25", "CX3CL1", "TNFRSF9", "TWEAK", "CCL20", "ST1A1",	
+                    "STAMBP", "ADA", "TNFB", "CSF_1")
 
 #--------------------------------------------------------
 # intervention-mediator analysis wrapper function
