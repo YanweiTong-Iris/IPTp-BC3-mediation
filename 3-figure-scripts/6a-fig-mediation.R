@@ -57,7 +57,7 @@ process_data <- function(input_data, outcome, outcome_type){
       mediator == "LBW" ~ "Low birth weight",
       mediator == "placentalmal" ~ "Placental malaria",
       mediator == "preterm" ~ "Preterm birth",
-      mediator == "SCF" ~ "Stem cell factor",
+      mediator == "SCF" ~ "SCF",
       mediator == "CCL11" ~ "CCL11",
       mediator == "CCL19" ~ "CCL19",
       mediator == "CCL28" ~ "CCL28",
@@ -103,12 +103,13 @@ process_data <- function(input_data, outcome, outcome_type){
                                                               "PD_L1",
                                                               "TNF",
                                                               "TNFRSF9",
-                                                              "Stem cell factor",
+                                                              "SCF",
                                                               "Preterm birth",
                                                               "Birth length",
                                                               "Birth weight",
                                                               "Low birth weight",
                                                               "Total effect"))) %>% 
+    filter(!mediator %in% c("antibacterial_binary", "betalactam_binary")) %>% 
     mutate(measure = ifelse(measure=="ACME", "Mediated effect", "Direct effect")) 
   
   # process total effects 
@@ -126,12 +127,12 @@ process_data <- function(input_data, outcome, outcome_type){
     mutate(mediator="Total effect",
            measure = "Total effect") 
   
-  if(outcome_type=="binary" & outcome=="whz"){
-    output_total = output_total %>% 
-      mutate(average = exp(average), 
-             average_lower_CI = exp(average_lower_CI),
-             average_upper_CI = exp(average_upper_CI))
-  }
+  # if(outcome_type=="binary" & outcome=="whz"){
+  #   output_total = output_total %>% 
+  #     mutate(average = exp(average), 
+  #            average_lower_CI = exp(average_lower_CI),
+  #            average_upper_CI = exp(average_upper_CI))
+  # }
   
   output_data <- bind_rows(output_acme, output_total)  %>% 
     mutate(mediator_label = case_when(
@@ -140,7 +141,8 @@ process_data <- function(input_data, outcome, outcome_type){
       mediator == "LBW" ~ "Low birth weight",
       mediator == "placentalmal" ~ "Placental malaria",
       mediator == "preterm" ~ "Preterm birth",
-      mediator == "SCF" ~ "Stem cell factor",
+      mediator == "SCF" ~ "SCF",
+      mediator == "ADA" ~ "ADA",
       mediator == "CCL11" ~ "CCL11",
       mediator == "CCL19" ~ "CCL19",
       mediator == "CCL28" ~ "CCL28",
@@ -150,15 +152,16 @@ process_data <- function(input_data, outcome, outcome_type){
       mediator == "CDCP1" ~ "CDCP1",
       mediator == "CXCL5" ~ "CXCL5",
       mediator == "DNER" ~ "DNER",
-      mediator == "IFN_gamma" ~ "IFN_gamma",
-      mediator == "IL_12B" ~ "IL_12B",
+      mediator == "IFN_gamma" ~ "IFN-gamma",
+      mediator == "IL10" ~ "IL10",
+      mediator == "IL_12B" ~ "IL-12B",
       mediator == "IL18" ~ "IL18",
-      mediator == "LIF_R" ~ "LIF_R",
+      mediator == "LIF_R" ~ "LIF-R",
       mediator == "OPG" ~ "OPG",
-      mediator == "PD_L1" ~ "PD_L1",
+      mediator == "PD_L1" ~ "PD-L1",
       mediator == "TNF" ~ "TNF",
       mediator == "TNFRSF9" ~ "TNFRSF9",
-      
+      mediator == "TWEAK" ~ "TWEAK",
       mediator == "birthlength" ~ "Birth length",
       mediator == "birthweight_kg" ~ "Birth weight",
       mediator == "Total effect" ~ "Total effect"
@@ -169,6 +172,7 @@ process_data <- function(input_data, outcome, outcome_type){
     mutate(mediator_label = factor(mediator_label, levels = c("Anemia", 
                                                               "Gestational\nweight change",
                                                               "Placental malaria",
+                                                              "ADA",
                                                               "CCL11",
                                                               "CCL19",
                                                               "CCL28",
@@ -180,48 +184,51 @@ process_data <- function(input_data, outcome, outcome_type){
                                                               "CXCL5",
                                                               "DNER",
                                                               "IFN_gamma",
-                                                              "IL_12B",
+                                                              "IL10",
+                                                              "IL-12B",
                                                               "IL18",
-                                                              "LIF_R",
+                                                              "LIF-R",
                                                               "OPG",
-                                                              "PD_L1",
+                                                              "PD-L1",
                                                               "TNF",
                                                               "TNFRSF9",
-                                                              "Stem cell factor",
+                                                              "TWEAK",
+                                                              "SCF",
                                                               "Preterm birth",
                                                               "Birth length",
                                                               "Birth weight",
                                                               "Low birth weight",
                                                               "Total effect"))) %>% 
-    mutate(measure = ifelse(measure=="ACME", "Mediated effect", measure)) 
+    mutate(measure = ifelse(measure=="ACME", "Mediated effect",
+                            measure)) 
   
-
   if(outcome_type=="binary"){
-
-      output_data <- output_data %>% 
-        filter(measure!="Direct effect") %>%
-        mutate(harmful = ifelse( mediator %in% c("LBW", "anemia_28binary", 
-                                                 "placentalmal", "preterm"), 1, 0)) %>% 
-        mutate(favors = case_when(
-          average < 1 & average_upper_CI <1 & harmful==1 ~ "DP promotes\ngrowth",
-          average < 1 & average_upper_CI <1 & harmful==0 ~ "SP promotes\ngrowth",
-          average_lower_CI <=1 & average_upper_CI >= 1 ~ "Null",
-          average > 1 & average_upper_CI >1 & harmful==1 ~ "SP promotes\ngrowth" ,
-          average > 1 & average_upper_CI >1 & harmful==0 ~ "DP promotes\ngrowth" 
-          
-        ))  %>% 
+    
+    output_data <- output_data %>% 
+      filter(measure!="Direct effect") %>%
+      mutate(harmful = ifelse( mediator %in% c("LBW", "anemia_28binary", 
+                                               "placentalmal", "preterm"), 1, 0)) %>% 
+      mutate(favors = case_when(
+        average < 1 & average_upper_CI <1 & harmful==1 ~ "DP promotes\ngrowth",
+        average < 1 & average_upper_CI <1 & harmful==0 ~ "SP promotes\ngrowth",
+        average_lower_CI <=1 & average_upper_CI >= 1 ~ "Null",
+        average > 1 & average_upper_CI >1 & harmful==1 ~ "SP promotes\ngrowth" ,
+        average > 1 & average_upper_CI >1 & harmful==0 ~ "DP promotes\ngrowth" 
+        
+      ))  %>% 
       mutate(favors = factor(favors, levels = c("SP promotes\ngrowth", "Null", "DP promotes\ngrowth"))) %>% 
-        mutate(signif = case_when(
-          average_lower_CI<1 & average_upper_CI<1 ~ 1,
-          average_lower_CI>1 & average_upper_CI>1 ~ 1,
-          TRUE ~ 0
-        )) %>% 
-        group_by(mediator_label) %>% 
-        mutate(nsignif = sum(signif)) %>% 
-        ungroup() %>% 
-        filter(nsignif>0)
+      mutate(signif = case_when(
+        average_lower_CI<1 & average_upper_CI<1 ~ 1,
+        average_lower_CI>1 & average_upper_CI>1 ~ 1,
+        TRUE ~ 0
+      )) %>% 
+      group_by(mediator_label) %>% 
+      mutate(nsignif = sum(signif)) %>% 
+      ungroup() %>% 
+      filter(mediator_label == "Total effect" |nsignif>0)
   }
-
+  
+  
   if(outcome_type=="continuous"){
     output_data <- output_data %>% 
       filter(measure!="Direct effect") %>%
@@ -235,11 +242,11 @@ process_data <- function(input_data, outcome, outcome_type){
         average_lower_CI<0 & average_upper_CI<0 ~ 1,
         average_lower_CI>0 & average_upper_CI>0 ~ 1,
         TRUE ~ 0
-        )) %>% 
+      )) %>% 
       group_by(mediator_label) %>% 
       mutate(nsignif = sum(signif)) %>% 
       ungroup() %>% 
-      filter(nsignif>0)
+      filter(mediator_label == "Total effect" | nsignif>0)
   }
   
   
@@ -291,7 +298,7 @@ stunt_plot <- ggplot(stunt_l %>% filter(measure!="Direct effect"),
         legend.position = "none",
         panel.grid.minor = element_line(color = "white", size = 0),
         panel.grid.major = element_line(size=0.2)) +
-  ggtitle("A) Moderate-to-severe stunting")
+  ggtitle("A) Stunting")
 
 stunt_plot
 
@@ -299,7 +306,7 @@ stunt_plot
 
 # wasting -------------------------------------------------------------------
 waste_l <- process_data(input_data = results_single_mediator_ms_waste,
-                        outcome = "whz",
+                        outcome = "wasting",
                         outcome_type = "binary")
 drop_waste <- which(waste_l$age_group=="Birth" & waste_l$mediator_label == "Birth weight")
 waste_l <- waste_l[-drop_waste,]
@@ -309,7 +316,7 @@ waste_l <- waste_l %>% mutate(
   average_upper_CI = ifelse(average_upper_CI>3, 2.99, average_upper_CI)
 )
 
-waste_plot <- ggplot(waste_l  %>% filter(measure!="Direct effect"),
+waste_plot <- ggplot(waste_l  %>% filter(measure!="Direct effect"), 
                      aes(x = mediator_label, y = average, group = measure)) + 
   geom_hline(yintercept = 1, linewidth=0.3) +
   geom_point(aes(col = favors, shape = measure), position = position_dodge(width=0.5), size=2) + 
@@ -334,16 +341,17 @@ waste_plot <- ggplot(waste_l  %>% filter(measure!="Direct effect"),
         panel.grid.minor = element_line(color = "white", size = 0),
         panel.grid.major = element_line(size=0.2)) +
   
-  ggtitle("B) Moderate-to-severe wasting")
+  ggtitle("B) Wasting")
 
 waste_plot
 
 
 combined_inc_plot <- grid.arrange(stunt_plot, waste_plot, 
-                                nrow=2,ncol=1)
+                                  nrow=2,ncol=1, heights = c(4,3.4))
 
 ggsave(combined_inc_plot, filename = paste0(figure_path, "plot-mediation-inc.png"),
-       width=7, height=4.5)
+       width=7, height= 3.5)
+
 
 ################################
 # Z-score plot
