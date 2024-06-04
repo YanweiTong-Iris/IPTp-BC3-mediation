@@ -79,7 +79,7 @@ make_heatmap <- function(plot_data, outcome_name, outcome_type){
     col_fun = colorRamp2(c(0, 0.25, 1, 1.5, 2),
                          c("#04388c", "#3b7eeb", "white", "#e38f22", "#6b3d01"))
   }
-
+  
   
   signif_matrix = plot_data %>% filter(outcome == outcome_name) %>%
     dplyr::select(independent_variable, age_group, signif) %>%
@@ -89,9 +89,12 @@ make_heatmap <- function(plot_data, outcome_name, outcome_type){
     column_to_rownames(var = "independent_variable") %>%
     as.matrix()
   
+  signif_matrix[is.na(signif_matrix)] <- "Not Significant"
+
+  
   # Draw the heatmap with the significance annotations
   Heatmap(heatmap_matrix, 
-          name = ifelse(outcome_type == "continuous", "Mean difference\nin z-score", "Incidence ratio"),
+          name = ifelse(outcome_type == "continuous", "Z-score difference\nper NPX", "Incidence ratio\nper NPX"),
           cluster_rows = TRUE, 
           cluster_columns = FALSE,
           clustering_distance_rows = "euclidean",
@@ -102,16 +105,16 @@ make_heatmap <- function(plot_data, outcome_name, outcome_type){
           
           
           # add asterisk to the heat map tiles that are significant
-            cell_fun = ifelse(outcome_type == "continuous", function(j, i, x, y, w, h, fill) {
-              if(signif_matrix[i, j] == "Significant") {
-                grid.points(x, y, pch = 8, gp = gpar(fontsize = 7))
-              } else {
-                grid.text("", x, y)
-              }
-            }, NA)
-        
-          ) 
-
+          cell_fun = function(j, i, x, y, w, h, fill) {
+            if(signif_matrix[i, j] == "Significant") {
+              grid.points(x, y, pch = 8, gp = gpar(fontsize = 7))
+            } else {
+              grid.text("", x, y)
+            }
+          }
+          
+  ) 
+  
 }
 
 pdf(paste0(figure_path, "plot-med-outcome-heatmap-LAZ.pdf"), width=5, height=10)
