@@ -18,10 +18,8 @@ To run the scripts, the data directory for the user must be changed in **`0-conf
 * `2-zscore-outcomes.R` : generate a cleaned Z-score outcome data set  
 * `3-incidence-outcomes.R` : generate cleaned incidence outcome data sets   
 * `4-linear-growth-velocity.R` : calculate linear growth velocity for both weight and length   
-* `5-non-malarial-infections.R` : code maternal non-malarial infections   
-* `6-covariates.R` : generate relevant covariates that were not in original trial data sets  
-* `7-medication.R` : code maternal medications  
-* `8-analysis-data.R` : with all potential mediators, outcomes, and covariates to create full analysis data sets for different age groups (monthly, bimonthly, quarterly, biannually, and annually)
+* `5-covariates.R` : generate relevant covariates that were not in original trial data sets  
+* `6-analysis-data.R` : with all potential mediators, outcomes, and covariates to create full analysis data sets for different age groups (monthly, bimonthly, quarterly, biannually, and annually)
 
 
 **`2-analysis` :** folder containing analysis scripts. To rerun all scripts in this subdirectory, run the bash script `0-analysis-bash.sh`.    
