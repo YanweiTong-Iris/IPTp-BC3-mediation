@@ -10,7 +10,6 @@ source(paste0(here::here(), "/0-config.R"))
 
 IM_results =  readRDS(paste0(results_path,"IM-MO-stratified/intervention_mediator_main_results_stratified.RDS"))  %>% 
   filter(!mediator %in% c(
-    "antibacterial_binary", "betalactam_binary",
     "birthweight", "GWC_Z"
   )) %>% 
   mutate(mediator = ifelse(mediator=="IL_10RB", "IL-10RB", mediator)) %>%
