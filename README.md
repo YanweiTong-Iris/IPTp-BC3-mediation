@@ -28,6 +28,7 @@ To run the scripts, the data directory for the user must be changed in **`0-conf
 * `2b-mediator-outcome-analysis.R` : obtain mediator-outcome effects   
 * `3-single-mediator-analysis.R` : run mediation analysis to obtain mediated and direct effects    
 * `4-sensitivity-analysis.R` : test unmeasured mediator-outcome confounding   
+* `5-incidence-within-age.R` : calculate incidence within age and covariate levels (for plotting)
 
 
 **`3-figure-scripts` :** folder containing figure scripts. First, run `2-analysis/0-analysis-bash.sh` to recreate the result data sets in `7-results`. Then, to rerun all scripts in this subdirectory, run the bash script `0-fig-bash.sh`.     
