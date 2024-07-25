@@ -218,7 +218,7 @@ process_data <- function(input_data, outcome, outcome_type){
       group_by(mediator_label) %>% 
       mutate(nsignif = sum(signif)) %>% 
       ungroup() %>% 
-      filter(mediator_label == "Total effect" |nsignif>0)
+      filter(mediator_label == "Total effect"|mediator_label == "Placental malaria" |nsignif>0)
   }
   
   
@@ -239,7 +239,7 @@ process_data <- function(input_data, outcome, outcome_type){
       group_by(mediator_label) %>% 
       mutate(nsignif = sum(signif)) %>% 
       ungroup() %>% 
-      filter(mediator_label == "Total effect" | nsignif>0)
+      filter(mediator_label == "Total effect"|mediator_label == "Placental malaria" |nsignif>0)
   }
   
   
@@ -342,10 +342,11 @@ waste_plot
 
 
 combined_inc_plot <- grid.arrange(stunt_plot, waste_plot, 
-                                  nrow=2,ncol=1, heights = c(4,3.4))
+                                  nrow=2,ncol=1, 
+                                  heights=c(2.7,2))
 
 ggsave(combined_inc_plot, filename = paste0(figure_path, "plot-mediation-inc.png"),
-       width=7, height= 3.5)
+       width=7, height= 4.5)
 
 
 ################################
@@ -456,7 +457,7 @@ legend_plot <- ggplot(wlz_l , aes(x = mediator_label, y = average, group = age_g
   ggtitle("B) Weight-for-length Z-score")
 
 ggsave(legend_plot, filename = paste0(figure_path, "plot-mediation-legend.pdf"),
-       width=9, height=5.75)
+       width=7, height=5.5)
 
 
 #grid.text("Title for Plot 1", x = unit(0.25, "npc"), y = unit(0.98, "npc"))

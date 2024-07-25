@@ -10,7 +10,8 @@ library('data.table')
 
 #Loading the data
 z.plot <- readRDS(paste0(data_path, "cleaned_zscores_data.RDS")) %>% 
-  mutate(agem_birth = ifelse(agedays==0, 0, agemonthcat))
+  mutate(agem_birth = ifelse(agedays==0, 0, agemonthcat)) %>%
+  mutate(Txarm = factor(Txarm, levels = c("SP", "DP")))
 
 
 z.plot= z.plot %>% mutate(gravid_multi = ifelse(Gravidity ==1, "Primigravidae", "Multigravidae")) %>% 
@@ -39,12 +40,13 @@ haz_plot <- ggplot(meanz_age_gravid, aes(x = agem_birth, y = mean_haz)) +
   scale_x_continuous(breaks = seq(0,12,1)) + 
   ylab("Mean length-for-age Z-score") +
   xlab("Age, months") +
-  scale_color_manual(values = c("#9e161d", "#164c9e")) + 
-  scale_fill_manual(values = c("#9e161d","#164c9e")) + 
+  scale_color_manual(values = c("#164c9e", "#9e161d")) + 
+  scale_fill_manual(values = c("#164c9e", "#9e161d")) +
   theme_minimal() +
   theme(strip.text = element_text(size=12),
-        legend.position = "bottom",
-        legend.title = element_blank())
+        legend.position = "none",
+        legend.title = element_blank()) +
+  ggtitle("A)")
 
 whz_plot <- ggplot(meanz_age_gravid, aes(x = agem_birth, y = mean_whz)) + 
   geom_line(aes(col=Txarm)) +
@@ -55,20 +57,20 @@ whz_plot <- ggplot(meanz_age_gravid, aes(x = agem_birth, y = mean_whz)) +
   scale_x_continuous(breaks = seq(0,12,1)) + 
   ylab("Mean weight-for-length Z-score") +
   xlab("Age, months") +
-  scale_color_manual(values = c("#9e161d", "#164c9e")) + 
-  scale_fill_manual(values = c("#9e161d", "#164c9e")) + 
+  scale_color_manual(values = c("#164c9e", "#9e161d")) + 
+  scale_fill_manual(values = c("#164c9e", "#9e161d")) +
   theme_minimal() +
   theme(strip.text = element_text(size=12),
         legend.position = "bottom",
-        legend.title = element_blank())
-
-ggsave(haz_plot, filename = paste0(figure_path, "plot-tx-laz-age.pdf"),
-       width = 8, height = 3)
+        legend.title = element_blank()) +
+  ggtitle("B)")
 
 
-ggsave(whz_plot, filename = paste0(figure_path, "plot-tx-wlz-age.pdf"),
-       width = 8, height = 3)
+plot_final <- grid.arrange(haz_plot, whz_plot, ncol=1,
+                           heights=c(2,2.65))
 
+ggsave(plot_final, filename = paste0(figure_path, "plot-zscore-tx-age.pdf"),
+       width = 8, height = 6)
 
 
 # *******************************************
@@ -77,7 +79,8 @@ ggsave(whz_plot, filename = paste0(figure_path, "plot-tx-wlz-age.pdf"),
 
 CA_zscores <- readRDS(paste0(data_path, "cleaned_CA_zscores_data.RDS")) %>% 
   mutate(age_CA_monthcat = ifelse(age_CA_months >= 0, ceiling(age_CA_months), floor(age_CA_months)))%>%
-  mutate(age_CA_monthcat = ifelse(age_CA_days ==0, 0, age_CA_monthcat))
+  mutate(age_CA_monthcat = ifelse(age_CA_days ==0, 0, age_CA_monthcat)) %>%
+  mutate(Txarm = factor(Txarm, levels = c("SP", "DP")))
 
 CA_zscores = CA_zscores %>% mutate(gravid_multi = ifelse(Gravidity ==1, "Primigravidae", "Multigravidae")) %>% 
   mutate(gravid_multi = factor(gravid_multi, levels = c("Primigravidae", "Multigravidae"))) %>%
@@ -107,12 +110,13 @@ CA_haz_plot <- ggplot(meanz_CA_gravid %>% filter(age_CA_monthcat >= 0), aes(x = 
   scale_x_continuous(breaks = seq(0,12,1)) + 
   ylab("Mean length-for-age Z-score") +
   xlab("Gestational age-corrected age (CA), months") +
-  scale_color_manual(values = c("#9e161d", "#164c9e")) + 
-  scale_fill_manual(values = c("#9e161d","#164c9e")) + 
+  scale_color_manual(values = c("#164c9e", "#9e161d")) + 
+  scale_fill_manual(values = c("#164c9e", "#9e161d")) + 
   theme_minimal() +
   theme(strip.text = element_text(size=12),
-        legend.position = "bottom",
-        legend.title = element_blank())
+        legend.position = "none",
+        legend.title = element_blank()) +
+  ggtitle("A)")
 
 CA_whz_plot <- ggplot(meanz_CA_gravid %>% filter(age_CA_monthcat >= 0), aes(x = age_CA_monthcat, y = mean_whz)) + 
   geom_line(aes(col=Txarm)) +
@@ -123,15 +127,18 @@ CA_whz_plot <- ggplot(meanz_CA_gravid %>% filter(age_CA_monthcat >= 0), aes(x = 
   scale_x_continuous(breaks = seq(0,12,1)) + 
   ylab("Mean weight-for-length Z-score") +
   xlab("Gestational age-corrected age (CA), months") +
-  scale_color_manual(values = c("#9e161d", "#164c9e")) + 
-  scale_fill_manual(values = c("#9e161d", "#164c9e")) + 
+  scale_color_manual(values = c("#164c9e", "#9e161d")) + 
+  scale_fill_manual(values = c("#164c9e", "#9e161d")) + 
   theme_minimal() +
   theme(strip.text = element_text(size=12),
         legend.position = "bottom",
-        legend.title = element_blank())
+        legend.title = element_blank()) +
+  ggtitle("B)")
 
-ggsave(CA_haz_plot, filename = paste0(figure_path, "plot-CA-laz-tx-age.pdf"),
-       width = 8, height = 3)
+CA_plot_final <- grid.arrange(CA_haz_plot, CA_whz_plot, ncol=1,
+                              heights=c(2,2.65))
 
-ggsave(CA_whz_plot, filename = paste0(figure_path, "plot-CA-wlz-tx-age.pdf"),
-       width = 8, height = 3)
+ggsave(CA_plot_final, filename = paste0(figure_path, "plot-zscore-tx-CA.pdf"),
+       width = 8, height = 6)
+
+

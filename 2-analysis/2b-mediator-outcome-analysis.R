@@ -188,10 +188,13 @@ mediator_analysis <- function(data, time_unit, age_category, age_group, model, i
   }
   #print(summary(model.fit))
   
-  N <- data_stratified %>% filter(!is.na(dependent_var)) %>% distinct(id) %>% count()
-  N_tx <- data_stratified %>% 
-    group_by(Txarm) %>% 
-    summarise(N = n())
+  eligible_N_data <-data_stratified[!is.na(data_stratified[[independent_var]]) &
+                        !is.na(data_stratified[[dependent_var]]),]
+  N <- length(unique(eligible_N_data$id))
+    
+  N_tx <- eligible_N_data %>%
+      group_by(Txarm) %>%
+      summarise(N = n())
   
   N_DP <- N_tx$N[N_tx$Txarm == "DP"]
   N_SP <- N_tx$N[N_tx$Txarm == "SP"]
@@ -359,6 +362,18 @@ crossing_incidence_MO_3mo = rbind(
   mutate(age_group = as.character(age_group))
 
 
+crossing_velocity_3mo = crossing(
+  independent_var = maternal_mediators_main,
+  dependent_var = outcome_velocity_3mo,
+  time_unit = "3 month",
+  age_group = age_list_3mo,
+  age_category = "agecat",
+  gravidity_strata = c("all", "single", "multi"),
+  dependent_type = "continuous"
+) %>% mutate(age_group = as.character(age_group))
+
+
+
 #--------------------------------------------------------
 # save the results with BH-adjusted p-value for Olink markers
 #--------------------------------------------------------
@@ -402,3 +417,20 @@ MO_incidence_3mo_stratified_save = MO_incidence_3mo_stratified_save %>% filter(i
 #View(MO_incidence_3mo_stratified_save)
 saveRDS(MO_incidence_3mo_stratified_save, paste0(results_path,"IM-MO-stratified/mediator_outcome_incidence_results_3mo_stratified.RDS"))
 
+
+MO_velocity_3mo_stratified = mediator_analysis_application(data_set = data_velocity_3month, crossing_set = crossing_velocity_3mo, model = "mediator-outcome")
+#View(MO_velocity_3mo_stratified)
+MO_velocity_3mo_stratified_non_Olink = MO_velocity_3mo_stratified %>%
+  filter(!independent_variable %in% Olink_mediators)
+MO_velocity_3mo_stratified_Olink = MO_velocity_3mo_stratified %>%
+  filter(independent_variable %in% Olink_mediators) %>%
+  group_by(gravidae, dependent_variable, age_group) %>%
+  mutate(adj_p_value = p.adjust(p_value, method = "BH")) %>% 
+  ungroup()
+MO_velocity_3mo_stratified_save = rbind(MO_velocity_3mo_stratified_non_Olink, MO_velocity_3mo_stratified_Olink)
+sig_mediator_results = MO_velocity_3mo_stratified %>% 
+  filter(!(independent_variable %in% Olink_mediators) | (independent_variable %in% Olink_mediators & p_value <= 0.05)) 
+sig_mediators = unique(sig_mediator_results$independent_variable)
+MO_velocity_3mo_stratified_save = MO_velocity_3mo_stratified_save %>% filter(independent_variable %in% sig_mediators)
+#View(MO_velocity_3mo_stratified_save)
+saveRDS(MO_velocity_3mo_stratified_save, paste0(results_path,"IM-MO-stratified/mediator_outcome_velocity_results_3mo_stratified.RDS"))

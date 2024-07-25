@@ -165,7 +165,8 @@ intervention_mediator_analysis <- function(data, mediator, mediator_type) {
         )
     }
     
-    N <- data_stratified %>% filter(!is.na(mediator)) %>% distinct(id) %>% count()
+    eligible_N_data <- data_stratified[!is.na(data_stratified[[mediator]]), ]
+    N <- length(unique(eligible_N_data$id))
     
     print(summary(unadjusted.model.fit))
     unadjusted_estimates <-

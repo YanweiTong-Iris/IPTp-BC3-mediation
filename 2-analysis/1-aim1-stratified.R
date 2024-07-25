@@ -120,9 +120,8 @@ aim1_analysis <-
         model <- glm(formula, data = data_stratified, family = poisson(link = "log"), na.action = na.omit)
       }
       
-      N = data_stratified %>%
-        filter(!is.na(outcome)) %>% 
-        distinct(id) %>% count()
+      eligible_N_data <- data_stratified[!is.na(data_stratified[[outcome]]), ]
+      N <- length(unique(eligible_N_data$id))
       
       # model without interaction tx by gravidity
       estimates <- summary(model)$coefficients
