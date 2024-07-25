@@ -1,4 +1,4 @@
-"","gravidae","outcome","mediator","mediator_label","age_group","n","ACME_CI"
+"","gravidae","outcome","mediator","mediator_label","age_group","N_from_analysis","ACME_CI"
 "1","single","haz_quarter","ADA",NA,"Birth",51,"0.0164 (-0.1618, 0.214)"
 "2","single","haz_quarter","ADA",NA,"1 day-3 months",50,"-0.0223 (-0.2829, 0.2289)"
 "3","single","haz_quarter","ADA",NA,">3-6 months",51,"0.0152 (-0.1835, 0.2394)"
