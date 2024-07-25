@@ -340,7 +340,9 @@ data_monthly_2 = data %>% mutate(agemonth_round = round(age)) %>%
 prevalence_outcomes_mutated <-
   continuous_prevalence_outcomes_mutated %>% 
   group_by(id, agemonth_round) %>%
-  mutate(haz = mean(haz), waz = mean(waz), whz = mean(whz)) %>%
+  mutate(haz = mean(haz, na.rm = TRUE), 
+         waz = mean(waz, na.rm = TRUE), 
+         whz = mean(whz, na.rm = TRUE)) %>%
   slice(1) %>%
   ungroup() %>%
   mutate(haz_ms_stunt = ifelse(haz< -2, 1, 0),
@@ -454,7 +456,9 @@ data_full_monthly_round = merge(
 zscore_monthly_ceiling <-
   continuous_prevalence_outcomes_mutated %>% 
   group_by(id, agemonth_ceiling) %>%
-  mutate(haz = mean(haz), waz = mean(waz), whz = mean(whz)) %>%
+  mutate(haz = mean(haz, na.rm = TRUE), 
+         waz = mean(waz, na.rm = TRUE), 
+         whz = mean(whz, na.rm = TRUE)) %>%
   slice(1) %>%
   mutate(haz_ms_stunt = ifelse(haz< -2, 1, 0),
          haz_s_stunt = ifelse(haz< -3, 1, 0),
@@ -589,7 +593,9 @@ data_quarter_birth = data %>% group_by(id, agecat_birth) %>%
 prevalence_outcomes_quarterly <-
   continuous_prevalence_outcomes_mutated %>% 
   group_by(id, agecat_birth) %>%
-  mutate(haz_quarter = mean(haz), waz_quarter = mean(waz), whz_quarter = mean(whz)) %>%
+  mutate(haz_quarter = mean(haz, na.rm = TRUE), 
+         waz_quarter = mean(waz, na.rm = TRUE), 
+         whz_quarter = mean(whz, na.rm = TRUE)) %>%
   slice(1) %>%
   ungroup() %>%
   mutate(haz_ms_stunt_quarter = ifelse(haz_quarter< -2, 1, 0),
