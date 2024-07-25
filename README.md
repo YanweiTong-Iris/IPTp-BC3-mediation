@@ -32,16 +32,17 @@ To run the scripts, the data directory for the user must be changed in **`0-conf
 
 
 **`3-figure-scripts` :** folder containing figure scripts. First, run `2-analysis/0-analysis-bash.sh` to recreate the result data sets in `7-results`. Then, to rerun all scripts in this subdirectory, run the bash script `0-fig-bash.sh`.     
-* `1a-fig-zscore-distributions.R` :  quarterly distributions of LAZ and WLZ   
-* `1b-fig-incidence-quarterly.R` : quarterly distributions of stunting and wasting incidences    
-* `2-fig-z-score-by-age.R` : monthly distributions of LAZ and WLZ by age and gestational age-corrected age (CA)    
-* `3-fig-intervention-mediator.R` : forest plot of intervention-mediator associations  
-* `4-fig-volcano-tx.R` : volcano plot for maternal inflammation-related proteins at delivery by IPTp-DP vs. SP among all gravidae     
-* `5a-fig-mediator-outcome.R` : associations between potential non-inflammation-related mediators and mean LAZ and WLZ     
-* `5b-fig-mediator-outcome-Olink.R` : heatmap for associations between maternal inflammation-related proteins at delivery and mean LAZ and WLZ    
+* `1a-fig-zscore-distributions.R` :  quarterly distributions of LAZ and WLZ.   
+* `1b-fig-incidence-quarterly.R` : quarterly distributions of stunting and wasting incidences.    
+* `2-fig-z-score-by-age.R` : monthly distributions of LAZ and WLZ by age and gestational age-corrected age (CA).    
+* `3-fig-intervention-mediator.R` : forest plot of intervention-mediator associations.  
+* `4-fig-volcano-tx.R` : volcano plot for maternal inflammation-related proteins at delivery by IPTp-DP vs. SP among all gravidae.     
+* `5a-fig-mediator-outcome.R` : associations between potential non-inflammation-related mediators and mean LAZ and WLZ.     
+* `5b-fig-mediator-outcome-Olink.R` : heatmap for associations between maternal inflammation-related proteins at delivery and mean LAZ and WLZ.    
 * `6a-fig-mediation.R` : total effects and mediated effects on both Z-score and incidence outcomes    
-* `6b-fig-mediation-Olink-heatmap.R` : heatmap for mediated effects through main Olink mediators on LAZ and WLZ    
-* `6c-fig-mediation-Olink.R` : total effects and mediated effects on incidences of child stunting and wasting    
+* `6b-fig-mediation-Olink-heatmap.R` : heatmap for mediated effects through main Olink mediators on LAZ and WLZ.    
+* `6c-fig-mediation-Olink.R` : total effects and mediated effects on incidences of child stunting and wasting. 
+* `7-fig-Olink-PCA.R` : generate the 2D PCA plot which shows the distribution of the Olink NPX along the first two principal components, with each point representing an individual observation colored according to the intervention group. . 
 
 
 **`4-table-scripts` :** folder containing table scripts. Before running scripts in this subdirectory, first run `2-analysis/0-analysis-bash.sh` to recreate the result data sets in `7-results`.    
@@ -49,6 +50,8 @@ To run the scripts, the data directory for the user must be changed in **`0-conf
 * `2-table-Olink.R` : table for Olink inflammation biomarker inclusion for intervention-mediator, mediator-outcome, and mediation analyses   
 * `3-table-mediator-outcome.R` : mediator-outcome associations between non-Olink mediators and incidence outcomes   
 * `4-table-mediated-effects.R` : IPTp's gravidity-stratified mediated (indirect) effects on Z-score outcomes through main mediators   
+* `5-table-full-mediated-effects.R` : full mediation analysis results on quarterly Z-score, incidence, and velocity results with and without intervention-mediator interaction. 
+* `6-table-demographics.R` : extract baseline, 6-month, and 12-month population characteristics (manuscript Table S1 and S2).
 
 
 **`5-figures` :** folder containing figure files.

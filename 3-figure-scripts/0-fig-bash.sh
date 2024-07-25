@@ -9,4 +9,5 @@ R CMD BATCH 5a-fig-mediator-outcome.R
 R CMD BATCH 5b-fig-mediator-outcome-Olink.R &
 R CMD BATCH 6a-fig-mediation.R &
 R CMD BATCH 6b-fig-mediation-Olink-heatmap.R &
-R CMD BATCH 6c-fig-mediation-Olink.R
+R CMD BATCH 6c-fig-mediation-Olink.R &
+R CMD BATCH 7-fig-Olink-PCA.R
