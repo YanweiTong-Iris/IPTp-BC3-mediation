@@ -12,6 +12,7 @@ source(paste0(here::here(), "/0-config.R"))
 
 data_zscore_quarterly = readRDS(paste0(data_path, "analysis_data_zscore_quarterly.RDS"))
 data_incidence_3month = readRDS(paste0(data_path,"analysis_data_incidence_quarterly.RDS"))
+data_velocity_3month = readRDS(paste0(data_path,"analysis_data_velocity_3month.RDS")) 
 
 
 #--------------------------------------------------------

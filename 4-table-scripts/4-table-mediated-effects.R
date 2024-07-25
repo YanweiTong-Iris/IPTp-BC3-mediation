@@ -13,7 +13,7 @@ result_single_mediator_zscore = readRDS(paste0(results_path,"/aim2-stratified/ai
   mutate_if(is.numeric, round, digits=4) %>%
   filter(interaction == 0) %>%
   filter(outcome %in% c("haz_quarter", "whz_quarter")) %>%
-  dplyr::select(mediator, outcome, n, age_group, gravidae, 
+  dplyr::select(mediator, outcome, N_from_analysis, age_group, gravidae, 
                 ACME_average, ACME_average_lower_CI, ACME_average_upper_CI) %>%
   mutate(age_group = factor(age_group, levels = c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months"))) %>%
   filter(!mediator %in% c(
@@ -37,8 +37,8 @@ result_single_mediator_zscore = readRDS(paste0(results_path,"/aim2-stratified/ai
       "Birth weight (kg)"
     ))
   ) %>% mutate(ACME_CI = paste0(ACME_average, " (", ACME_average_lower_CI, ", ", ACME_average_upper_CI, ")")) %>%
-  dplyr::select(gravidae, outcome, mediator, mediator_label, age_group, n, ACME_CI) %>%
-  mutate(n = as.integer(n))
+  dplyr::select(gravidae, outcome, mediator, mediator_label, age_group, N_from_analysis, ACME_CI) %>%
+  mutate(N_from_analysis = as.integer(N_from_analysis))
 
 
 result_single_mediator_zscore = with(result_single_mediator_zscore, result_single_mediator_zscore[order(outcome, mediator, age_group),])

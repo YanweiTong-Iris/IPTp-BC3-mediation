@@ -20,7 +20,7 @@ incidence_ratio = readRDS(paste0(results_path, "aim1-stratified/aim1_incidence_3
   )))
 
 # Read in quarterly incidence data 
-incidence = readRDS(paste0(data_path, "incidence_data_quarterly.RDS"))  
+incidence = readRDS(paste0(data_path, "analysis_data_incidence_quarterly.RDS"))[1:12]
 # Variable names
 current_names <- names(incidence)
 
@@ -46,10 +46,13 @@ incident_function <- function(dataset, incident_vars) {
   for (var in incident_vars) {
     
     atrisk_var <- paste0("atrisk_", var) 
+    
+    dataset_clean = dataset[!is.na(dataset[[atrisk_var]]), ]
+    
     #grouping, filtering for atrisk == TRUE, and then calculating incidence and ci 
-    temp_result <- dataset %>%
+    temp_result <- dataset_clean %>%
       group_by(Txarm, agecat_birth) %>%
-      filter(get(atrisk_var) == 1) %>%
+      filter(get(atrisk_var) == 1, !is.na(get(var))) %>%
       summarise(incident = sum(get(var), na.rm = TRUE),
                 rows = n(),
                 .groups = 'drop') %>%
@@ -113,5 +116,90 @@ merged_data <- merged_data %>%
 
 
 write.csv(merged_data, here::here(tables_path, "table_aim1_incidence.csv")) 
+
+
+
+#-----------------------------------------------------
+# Primigravidae
+#-----------------------------------------------------
+
+# Read in aim1 incidence ratio data (primigravidae)
+incidence_ratio_single = readRDS(paste0(results_path, "aim1-stratified/aim1_incidence_3mo_results_stratified.RDS")) %>% 
+  filter(is.na(modifier_level), gravidity_strata == "single") %>% 
+  rename(agecat_birth = age_group) %>% 
+  dplyr::select(outcome, agecat_birth, point_estimate, lower_95CI, upper_95CI) %>% 
+  distinct() %>% 
+  mutate(agecat_birth = factor(agecat_birth, levels = c(
+    "Birth", "1 day-3 months", ">3-6 months", ">6-9 months",">9-12 months"
+  )))
+
+
+#subset primigravidae
+incidence_single <- incidence %>% filter(Gravidity == 1)
+
+results_single <- incident_function(incidence_single, incident_vars)
+
+incidence_results_single <- dplyr::bind_rows(results_single) 
+
+# Pivot the dataset to create a table that matches the table shell 
+wide_incidence_results_single <- incidence_results_single %>%
+  pivot_wider(
+    names_from = Txarm,
+    values_from = c(incident, rows, PointEst, Lower, Upper),
+    names_sep = "_"
+  ) %>% 
+  rename(outcome = var_name)
+
+
+# Merge the datasets for incidence ratio and incidence 
+merged_data_single <- merge(incidence_ratio_single, wide_incidence_results_single, by = c("outcome", "agecat_birth")) %>%
+  mutate(across(c(PointEst_DP, PointEst_SP, Lower_DP, Upper_DP, Lower_SP, Upper_SP), ~ . * 100))
+
+# Format the table 
+merged_data_single = data_format(merged_data_single)
+
+write.csv(merged_data_single, here::here(tables_path, "table_aim1_incidence_primigravidae.csv")) 
+
+
+#-----------------------------------------------------
+# Multigravidae
+#-----------------------------------------------------
+
+# Read in aim1 incidence ratio data (multigravidae)
+incidence_ratio_multi = readRDS(paste0(results_path, "aim1-stratified/aim1_incidence_3mo_results_stratified.RDS")) %>% 
+  filter(is.na(modifier_level), gravidity_strata == "multi") %>% 
+  rename(agecat_birth = age_group) %>% 
+  dplyr::select(outcome, agecat_birth, point_estimate, lower_95CI, upper_95CI) %>% 
+  distinct() %>% 
+  mutate(agecat_birth = factor(agecat_birth, levels = c(
+    "Birth", "1 day-3 months", ">3-6 months", ">6-9 months",">9-12 months"
+  )))
+
+
+#subset multigravidae
+incidence_multi <- incidence %>% filter(Gravidity > 1)
+
+results_multi <- incident_function(incidence_multi, incident_vars)
+
+incidence_results_multi <- dplyr::bind_rows(results_multi) 
+
+# Pivot the dataset to create a table that matches the table shell 
+wide_incidence_results_multi <- incidence_results_multi %>%
+  pivot_wider(
+    names_from = Txarm,
+    values_from = c(incident, rows, PointEst, Lower, Upper),
+    names_sep = "_"
+  ) %>% 
+  rename(outcome = var_name)
+
+
+# Merge the datasets for incidence ratio and incidence 
+merged_data_multi <- merge(incidence_ratio_multi, wide_incidence_results_multi, by = c("outcome", "agecat_birth")) %>%
+  mutate(across(c(PointEst_DP, PointEst_SP, Lower_DP, Upper_DP, Lower_SP, Upper_SP), ~ . * 100))
+
+# Format the table 
+merged_data_multi = data_format(merged_data_multi)
+
+write.csv(merged_data_multi, here::here(tables_path, "table_aim1_incidence_multigravidae.csv")) 
 
 

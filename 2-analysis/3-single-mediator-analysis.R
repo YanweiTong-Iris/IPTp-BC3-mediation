@@ -13,6 +13,7 @@ source(paste0(here::here(), "/0-config.R"))
 
 data_zscore_quarterly = readRDS(paste0(data_path, "analysis_data_zscore_quarterly.RDS"))
 data_incidence_3month = readRDS(paste0(data_path,"analysis_data_incidence_quarterly.RDS"))
+data_velocity_3month = readRDS(paste0(data_path,"analysis_data_velocity_3month.RDS")) 
 
 #--------------------------------------------------------
 # create outcome, age, and mediator list 
@@ -279,7 +280,8 @@ single_mediator_analysis <-
       print(summary_mediate_full)
     }
     
-    N <- data_stratified %>% distinct(id) %>% count()
+    N <- summary_mediate$nobs
+    N_interact <- summary_mediate_full$nobs
     
     outcome_remark = case_when(
       outcome == "haz_quarter" | outcome == "haz" ~ "height-for-age z score",
@@ -318,7 +320,7 @@ single_mediator_analysis <-
       gravidae= gravidity_strata,
       time_unit = time_unit,
       age_group = age_group,
-      N_from_analysis = N,
+      N_from_analysis = N_interact,
       interaction = 1,
       adjustment = adjustment_factor,
       
@@ -480,6 +482,27 @@ crossing_incidence_3mo = rbind(
 ) %>% mutate(age_group = as.character(age_group))
 
 
+crossing_velocity_3mo = rbind(crossing(
+  mediator = binary_maternal_mediators,
+  outcome = outcome_velocity_3mo,
+  time_unit = "3 month",
+  age_group = age_list_3mo,
+  age_category = "agecat",
+  mediator_type = "binary",
+  outcome_type = "continuous",
+  gravidity_strata = c("all", "single", "multi")
+), crossing(
+  mediator = continuous_mediator,
+  outcome = outcome_velocity_3mo,
+  time_unit = "3 month",
+  age_group = age_list_3mo,
+  age_category = "agecat",
+  mediator_type = "continuous",
+  outcome_type = "continuous",
+  gravidity_strata = c("all", "single", "multi")
+)) %>% mutate(age_group = as.character(age_group))
+
+
 
 #--------------------------------------------------------
 # apply the single-mediator analysis wrapper function
@@ -526,4 +549,20 @@ single_mediator_incidence_3mo_stratified_save = rbind(single_mediator_incidence_
 #View(single_mediator_incidence_3mo_stratified_save)
 saveRDS(single_mediator_incidence_3mo_stratified_save, paste0(results_path,"aim2-stratified/aim2_single_mediator_incidence_results_3mo.RDS"))
 
+
+single_mediator_velocity_3mo_stratified = single_mediator_analysis_application(data_set = data_velocity_3month, crossing_set = crossing_velocity_3mo)
+View(single_mediator_velocity_3mo_stratified)
+single_mediator_velocity_3mo_stratified = add_column(single_mediator_velocity_3mo_stratified, ACME_adj_p = NA, .after="ACME_p_val" )
+single_mediator_velocity_3mo_stratified_non_Olink = single_mediator_velocity_3mo_stratified %>%
+  filter(!mediator %in% Olink_mediator)
+single_mediator_velocity_3mo_stratified_Olink = single_mediator_velocity_3mo_stratified %>%
+  filter(mediator %in% Olink_mediator) %>%
+  group_by(interaction, gravidae, age_group, outcome) %>%
+  mutate(ACME_adj_p = p.adjust(ACME_p_val, method = "BH")) %>% 
+  ungroup()
+single_mediator_velocity_3mo_stratified_save = rbind(single_mediator_velocity_3mo_stratified_non_Olink, single_mediator_velocity_3mo_stratified_Olink) %>% 
+  # remove biomarkers with non-significant IM results
+  filter(!mediator %in% c("LIF_R", "IFN_gamma", "TNF", "CXCL5", "IL_12B", "PD_L1"))
+View(single_mediator_velocity_3mo_stratified_save)
+saveRDS(single_mediator_velocity_3mo_stratified_save, paste0(results_path,"aim2-stratified/aim2_single_mediator_velocity_results_3mo.RDS"))
 

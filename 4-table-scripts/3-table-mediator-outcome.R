@@ -8,7 +8,7 @@ source(paste0(here::here(), "/0-config.R"))
 
 MO_incidence_3mo = readRDS(paste0(results_path,"IM-MO-stratified/mediator_outcome_incidence_results_3mo_stratified.RDS")) %>%
   mutate_if(is.numeric, round, digits=2) %>%
-  dplyr::select(independent_variable, dependent_variable, n, age_group, gravidae, 
+  dplyr::select(independent_variable, dependent_variable, N_from_analysis, age_group, gravidae, 
                 point_estimate, lower_95CI,upper_95CI) %>%
   mutate(age_group = factor(age_group, levels = c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months"))) %>%
   filter(gravidae == "all") %>%
@@ -40,8 +40,8 @@ MO_incidence_3mo = readRDS(paste0(results_path,"IM-MO-stratified/mediator_outcom
     ))) %>%
   mutate(outcome = dependent_variable) %>%
   mutate(effect_CI = paste0(point_estimate, " (", lower_95CI, ", ", upper_95CI, ")")) %>%
-  dplyr::select(gravidae, outcome, mediator_label, age_group, n, effect_CI) %>%
-  mutate(n = as.integer(n))
+  dplyr::select(gravidae, outcome, mediator_label, age_group, N_from_analysis, effect_CI) %>%
+  mutate(N_from_analysis = as.integer(N_from_analysis)) 
 
 
 MO_incidence_3mo = with(MO_incidence_3mo, MO_incidence_3mo[order(outcome, mediator_label, age_group),])
