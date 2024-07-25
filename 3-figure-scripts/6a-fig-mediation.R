@@ -217,8 +217,7 @@ process_data <- function(input_data, outcome, outcome_type){
       )) %>% 
       group_by(mediator_label) %>% 
       mutate(nsignif = sum(signif)) %>% 
-      ungroup() %>% 
-      filter(mediator_label == "Total effect"|mediator_label == "Placental malaria" |nsignif>0)
+      ungroup() 
   }
   
   
@@ -238,8 +237,15 @@ process_data <- function(input_data, outcome, outcome_type){
       )) %>% 
       group_by(mediator_label) %>% 
       mutate(nsignif = sum(signif)) %>% 
-      ungroup() %>% 
-      filter(mediator_label == "Total effect"|mediator_label == "Placental malaria" |nsignif>0)
+      ungroup() 
+  }
+  
+  if(outcome == "whz" | outcome=="wasting"){
+    output_data = output_data %>%
+      filter(mediator_label == "Placental malaria" | mediator_label == "Total effect" | nsignif > 0)
+  } else{
+    output_data = output_data %>%
+      filter(mediator_label == "Total effect" | nsignif > 0)
   }
   
   
@@ -343,7 +349,7 @@ waste_plot
 
 combined_inc_plot <- grid.arrange(stunt_plot, waste_plot, 
                                   nrow=2,ncol=1, 
-                                  heights=c(2.7,2))
+                                  heights=c(2.7,2.4))
 
 ggsave(combined_inc_plot, filename = paste0(figure_path, "plot-mediation-inc.png"),
        width=7, height= 4.5)
