@@ -383,7 +383,8 @@ data_monthly = data %>%
   mutate(sum_anymalaria = sum(malaria_numeric)) %>%
   arrange(desc(anymalaria), desc(incidentmalaria), desc(wet_season), incidentmalaria_season) %>%
   slice(1) %>%
-  ungroup() 
+  ungroup() %>%
+  mutate(Txarm = factor(Txarm, levels = c("SP", "DP")))
 
 df_wgv1_new <- df_wgv1 %>%
   separate(
@@ -414,11 +415,21 @@ colnames(data_velocity_1month)[2] <- "agemonth_ceiling"
 
 colnames(df_incidence_monthly)[2] = "agemonth_ceiling"
 
-data_incidence_1month = merge(df_incidence_monthly,
-                              dplyr::select(data_monthly, c("uniqueid", "id", "age", "agemonth_ceiling", "motherid", "Txarm", "rand_Txarm", main_covariate_list)),
-                              by = c("id", "agemonth_ceiling"),) %>% group_by(id) %>%
-  arrange(id, age) %>%
-  ungroup()
+data_incidence_1month = merge(data_incidence_1month,
+                              dplyr::select(data_zscore_monthly, c("id", "agemonth_round", "haz", "whz", "waz")),
+                              by.x = c("id", "agemonth_ceiling"),
+                              by.y = c("id", "agemonth_round")) %>%
+  mutate(incident_haz_ms_stunt_agemonthcat = ifelse(is.na(haz), NA, incident_haz_ms_stunt_agemonthcat),
+         atrisk_haz_ms_stunt_agemonthcat = ifelse(is.na(haz), NA, atrisk_haz_ms_stunt_agemonthcat),
+         incident_haz_s_stunt_agemonthcat = ifelse(is.na(haz), NA, incident_haz_s_stunt_agemonthcat),
+         atrisk_haz_s_stunt_agemonthcat = ifelse(is.na(haz), NA, atrisk_haz_s_stunt_agemonthcat),
+         incident_whz_ms_waste_agemonthcat = ifelse(is.na(whz), NA, incident_whz_ms_waste_agemonthcat),
+         atrisk_whz_ms_waste_agemonthcat = ifelse(is.na(whz), NA, atrisk_whz_ms_waste_agemonthcat),
+         incident_whz_s_waste_agemonthcat = ifelse(is.na(whz), NA, incident_whz_s_waste_agemonthcat),
+         atrisk_whz_s_waste_agemonthcath = ifelse(is.na(whz), NA, atrisk_whz_s_waste_agemonthcat),
+         incident_waz_underwt_agemonthcat = ifelse(is.na(waz), NA, incident_waz_underwt_agemonthcat),
+         atrisk_waz_underwt_agemonthcat = ifelse(is.na(waz), NA, atrisk_waz_underwt_agemonthcat)) %>%
+  mutate(agemonth_ceiling = factor(agemonth_ceiling))
 
 #View(data_incidence_1month)
 
@@ -448,7 +459,8 @@ data_full_monthly_round = merge(
   mutate(new_anymalaria = ifelse(
       lag(malaria_numeric, default = 0) == 1,
       1, malaria_numeric)) %>%
-  ungroup()  
+  ungroup() %>% 
+  mutate_if(is.numeric, ~ifelse(is.nan(.), NA, .))
 
 #View(data_full_monthly_round)
 
@@ -566,7 +578,7 @@ data_velocity_3month = merge(dplyr::select(df_gv3_new, c("id", "agecat", "month3
 
 
 # -----------------------------------------
-# prevalence, quarterly
+# # zscore and prevalence, quarterly
 # -----------------------------------------
 
 preceding_malaria <- dfz %>% 
@@ -606,8 +618,8 @@ prevalence_outcomes_quarterly <-
 #View(prevalence_outcomes_quarterly)
 
 data_zscore_quarterly = merge(dplyr::select(prevalence_outcomes_quarterly, c("id", "agecat_birth", "haz_quarter", "whz_quarter", "waz_quarter")),
-                                  dplyr::select(data_quarter_birth, c("uniqueid", "id", "age", "agecat_birth", "motherid", "Txarm", "rand_Txarm", main_covariate_list)),
-                                  by = c("id", "agecat_birth"),) %>%
+                              dplyr::select(data_quarter_birth, c("uniqueid", "id", "age", "agecat_birth", "motherid", "Txarm", "rand_Txarm", main_covariate_list)),
+                              by = c("id", "agecat_birth")) %>%
   mutate(agecat_birth = as.factor(agecat_birth)) %>%
   group_by(id) %>%
   arrange(id, age) %>%
@@ -621,8 +633,8 @@ data_zscore_quarterly = merge(data_zscore_quarterly,
 
 
 data_prevalence_quarterly = merge(dplyr::select(prevalence_outcomes_quarterly, c("id", "agecat_birth", "haz_ms_stunt_quarter" ,"haz_s_stunt_quarter", "whz_ms_waste_quarter", "whz_s_waste_quarter", "waz_underwt_quarter")),
-                              dplyr::select(data_quarter_birth, c("uniqueid", "id", "age", "agecat_birth", "motherid", "Txarm", "rand_Txarm", main_covariate_list)),
-                              by = c("id", "agecat_birth"),) %>%
+                                  dplyr::select(data_quarter_birth, c("uniqueid", "id", "age", "agecat_birth", "motherid", "Txarm", "rand_Txarm", main_covariate_list)),
+                                  by = c("id", "agecat_birth")) %>%
   mutate(agecat_birth = as.factor(agecat_birth)) %>%
   group_by(id) %>%
   arrange(id, age) %>%
@@ -639,13 +651,22 @@ data_prevalence_quarterly = merge(data_prevalence_quarterly,
 # incidence, quarterly
 # -----------------------------------------
 
-data_incidence_3month = merge(df_incidence_quarterly,
-                                dplyr::select(data_quarter_birth, c("uniqueid", "id", "age", "agecat_birth", "motherid", "Txarm", "rand_Txarm", main_covariate_list)),
-                                by = c("id", "agecat_birth")) %>%
-  mutate(agecat_birth = as.factor(agecat_birth)) %>%
-  group_by(id) %>%
-  arrange(id, age) %>%
-  ungroup()
+data_incidence_3month = merge(data_incidence_3month,
+                              dplyr::select(data_zscore_quarterly, c("id", "agecat_birth", "haz_quarter", "whz_quarter", "waz_quarter")),
+                              by = c("id", "agecat_birth")) %>%
+  mutate(agecat_birth = factor(agecat_birth,
+                               levels = c("Birth", "1 day-3 months", ">3-6 months", ">6-9 months", ">9-12 months"
+                               ))) %>%
+  mutate(incident_haz_ms_stunt_agecat_birth = ifelse(is.na(haz_quarter), NA, incident_haz_ms_stunt_agecat_birth),
+         atrisk_haz_ms_stunt_agecat_birth = ifelse(is.na(haz_quarter), NA, atrisk_haz_ms_stunt_agecat_birth),
+         incident_haz_s_stunt_agecat_birth = ifelse(is.na(haz_quarter), NA, incident_haz_s_stunt_agecat_birth),
+         atrisk_haz_s_stunt_agecat_birth = ifelse(is.na(haz_quarter), NA, atrisk_haz_s_stunt_agecat_birth),
+         incident_whz_ms_waste_agecat_birth = ifelse(is.na(whz_quarter), NA, incident_whz_ms_waste_agecat_birth),
+         atrisk_whz_ms_waste_agecat_birth = ifelse(is.na(whz_quarter), NA, atrisk_whz_ms_waste_agecat_birth),
+         incident_whz_s_waste_agecat_birth = ifelse(is.na(whz_quarter), NA, incident_whz_s_waste_agecat_birth),
+         atrisk_whz_s_waste_agecat_birth = ifelse(is.na(whz_quarter), NA, atrisk_whz_s_waste_agecat_birth),
+         incident_waz_underwt_agecat_birth = ifelse(is.na(waz_quarter), NA, incident_waz_underwt_agecat_birth),
+         atrisk_waz_underwt_agecat_birth = ifelse(is.na(waz_quarter), NA, atrisk_waz_underwt_agecat_birth))
 
 data_incidence_3month = merge(data_incidence_3month,
                               preceding_malaria,
