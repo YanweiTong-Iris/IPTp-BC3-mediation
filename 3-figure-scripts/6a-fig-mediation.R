@@ -432,7 +432,8 @@ wlz_plot <- ggplot(wlz_l  %>% filter(measure!="Direct effect" &
 wlz_plot
 
 combined_Z_plot <- grid.arrange(laz_plot,wlz_plot, 
-                              nrow=2,ncol=1)
+                              nrow=2,ncol=1,
+                              heights=c(3, 3.5))
 
 ggsave(combined_Z_plot, filename = paste0(figure_path, "plot-mediation-Z.png"),
        width=7, height=4.5)
