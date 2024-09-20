@@ -42,7 +42,7 @@ haz_plot <- ggplot(z.plot, aes(y=agecat_birth, x = haz, fill=stat(x)))+
   coord_flip() + 
   theme(axis.title.x = element_blank(),
         legend.position = "none") +
-  ggtitle("A) Length-for-age Z")
+  ggtitle("a) Length-for-age Z")
 
 wlz_plot <- ggplot(z.plot, aes(y=agecat_birth, x = whz, fill=stat(x)))+
   geom_density_ridges_gradient(quantile_lines = TRUE, quantiles = 2,
@@ -59,7 +59,7 @@ wlz_plot <- ggplot(z.plot, aes(y=agecat_birth, x = whz, fill=stat(x)))+
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         axis.text.y = element_blank())+
-  ggtitle("B) Weight-for-length Z")
+  ggtitle("b) Weight-for-length Z")
 
 plot <- grid.arrange(haz_plot, wlz_plot, ncol=2,
                      widths=c(4.3,5))

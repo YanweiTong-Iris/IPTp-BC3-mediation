@@ -46,7 +46,7 @@ haz_plot <- ggplot(meanz_age_gravid, aes(x = agem_birth, y = mean_haz)) +
   theme(strip.text = element_text(size=12),
         legend.position = "none",
         legend.title = element_blank()) +
-  ggtitle("A)")
+  ggtitle("a)")
 
 whz_plot <- ggplot(meanz_age_gravid, aes(x = agem_birth, y = mean_whz)) + 
   geom_line(aes(col=Txarm)) +
@@ -63,7 +63,7 @@ whz_plot <- ggplot(meanz_age_gravid, aes(x = agem_birth, y = mean_whz)) +
   theme(strip.text = element_text(size=12),
         legend.position = "bottom",
         legend.title = element_blank()) +
-  ggtitle("B)")
+  ggtitle("b)")
 
 
 plot_final <- grid.arrange(haz_plot, whz_plot, ncol=1,
@@ -116,7 +116,7 @@ CA_haz_plot <- ggplot(meanz_CA_gravid %>% filter(age_CA_monthcat >= 0), aes(x = 
   theme(strip.text = element_text(size=12),
         legend.position = "none",
         legend.title = element_blank()) +
-  ggtitle("A)")
+  ggtitle("a)")
 
 CA_whz_plot <- ggplot(meanz_CA_gravid %>% filter(age_CA_monthcat >= 0), aes(x = age_CA_monthcat, y = mean_whz)) + 
   geom_line(aes(col=Txarm)) +
@@ -133,7 +133,7 @@ CA_whz_plot <- ggplot(meanz_CA_gravid %>% filter(age_CA_monthcat >= 0), aes(x = 
   theme(strip.text = element_text(size=12),
         legend.position = "bottom",
         legend.title = element_blank()) +
-  ggtitle("B)")
+  ggtitle("b)")
 
 CA_plot_final <- grid.arrange(CA_haz_plot, CA_whz_plot, ncol=1,
                               heights=c(2,2.65))

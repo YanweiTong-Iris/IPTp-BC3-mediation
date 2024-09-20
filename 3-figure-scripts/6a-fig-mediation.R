@@ -84,7 +84,7 @@ process_data <- function(input_data, outcome, outcome_type){
     ))) %>% 
     mutate(mediator_label = factor(mediator_label, levels = c("Anemia", 
                                                               "Gestational\nweight change",
-                                                              "Placental malaria",
+                                                              "ADA",
                                                               "CCL11",
                                                               "CCL19",
                                                               "CCL28",
@@ -96,19 +96,22 @@ process_data <- function(input_data, outcome, outcome_type){
                                                               "CXCL5",
                                                               "DNER",
                                                               "IFN_gamma",
-                                                              "IL_12B",
+                                                              "IL10",
+                                                              "IL-12B",
                                                               "IL18",
-                                                              "LIF_R",
+                                                              "LIF-R",
                                                               "OPG",
-                                                              "PD_L1",
+                                                              "PD-L1",
                                                               "TNF",
                                                               "TNFRSF9",
+                                                              "TWEAK",
                                                               "SCF",
+                                                              "Placental malaria",
                                                               "Preterm birth",
                                                               "Birth length",
                                                               "Birth weight",
                                                               "Low birth weight",
-                                                              "Total effect"))) %>% 
+                                                              "Total effect"))) %>%  
     filter(!mediator %in% c("antibacterial_binary", "betalactam_binary")) %>% 
     mutate(measure = ifelse(measure=="ACME", "Mediated effect", "Direct effect")) 
   
@@ -165,7 +168,6 @@ process_data <- function(input_data, outcome, outcome_type){
     ))) %>%
     mutate(mediator_label = factor(mediator_label, levels = c("Anemia", 
                                                               "Gestational\nweight change",
-                                                              "Placental malaria",
                                                               "ADA",
                                                               "CCL11",
                                                               "CCL19",
@@ -188,6 +190,7 @@ process_data <- function(input_data, outcome, outcome_type){
                                                               "TNFRSF9",
                                                               "TWEAK",
                                                               "SCF",
+                                                              "Placental malaria",
                                                               "Preterm birth",
                                                               "Birth length",
                                                               "Birth weight",
@@ -298,7 +301,7 @@ stunt_plot <- ggplot(stunt_l %>% filter(measure!="Direct effect"),
         panel.grid.minor = element_line(color = "white", size = 0),
         panel.grid.major = element_line(size=0.2),
         plot.title = element_text(hjust = -0.18, size = 12)) +
-  ggtitle("A) Stunting")
+  ggtitle("a) Stunting")
 
 stunt_plot
 
@@ -341,8 +344,7 @@ waste_plot <- ggplot(waste_l  %>% filter(measure!="Direct effect"),
         panel.grid.minor = element_line(color = "white", size = 0),
         panel.grid.major = element_line(size=0.2),
         plot.title = element_text(hjust = -0.18, size = 12)) +
-  
-  ggtitle("B) Wasting")
+  ggtitle("b) Wasting") 
 
 waste_plot
 
@@ -390,8 +392,9 @@ laz_plot <- ggplot(laz_l %>% filter(measure!="Direct effect" &
         legend.position= "none",
         legend.spacing.x = unit(0, "cm"),
         panel.grid.minor = element_line(color = "white", size = 0),
-        panel.grid.major = element_line(size=0.2)) +
-  ggtitle("A) Length-for-age Z-score")
+        panel.grid.major = element_line(size=0.2),
+        plot.title = element_text(hjust = -0.1, size = 12)) +
+  ggtitle("a) Length-for-age Z-score")
 laz_plot
 
 
@@ -426,17 +429,18 @@ wlz_plot <- ggplot(wlz_l  %>% filter(measure!="Direct effect" &
         legend.position= "none",
         legend.spacing.x = unit(0, "cm"),
         panel.grid.minor = element_line(color = "white", size = 0),
-        panel.grid.major = element_line(size=0.2)) +
-  ggtitle("B) Weight-for-length Z-score")
+        panel.grid.major = element_line(size=0.2),
+        plot.title = element_text(hjust = -0.18, size = 12)) +
+  ggtitle("b) Weight-for-length Z-score")
 
 wlz_plot
 
 combined_Z_plot <- grid.arrange(laz_plot,wlz_plot, 
                               nrow=2,ncol=1,
-                              heights=c(3, 3.5))
+                              heights=c(3.2, 3.5))
 
 ggsave(combined_Z_plot, filename = paste0(figure_path, "plot-mediation-Z.png"),
-       width=7, height=4.5)
+       width=7, height=5)
 
 
 ### save legend
@@ -461,7 +465,7 @@ legend_plot <- ggplot(wlz_l , aes(x = mediator_label, y = average, group = age_g
         legend.title = element_blank(),
         legend.position= "bottom",
         legend.spacing.x = unit(0, "cm")) +
-  ggtitle("B) Weight-for-length Z-score")
+  ggtitle("b) Weight-for-length Z-score")
 
 ggsave(legend_plot, filename = paste0(figure_path, "plot-mediation-legend.pdf"),
        width=7, height=5.5)

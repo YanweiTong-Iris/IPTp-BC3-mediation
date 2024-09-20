@@ -7,7 +7,7 @@ rm(list=ls())
 source(paste0(here::here(), "/0-config.R"))
 
 
-inc.res.quarterly = readRDS(paste0(results_path, "incidence_estimates_quarterly.RDS")) %>% 
+inc.res.quarterly = readRDS(paste0(results_path, "incidence-age/incidence_estimates_quarterly.RDS")) %>% 
   rename(agevar = agecat_birth,
          agecat = age_level) %>% 
   mutate(strat_var = ifelse(strat_var == "agecat_birth", "agecat", strat_var)) %>% 
@@ -21,10 +21,10 @@ inc.res.quarterly = readRDS(paste0(results_path, "incidence_estimates_quarterly.
     outcome=="whz_s_waste" ~ "Severe wasting"
   )) %>% 
   mutate(outcome_class = case_when(
-    outcome=="haz_ms_stunt" ~ "C) Stunting",
-    outcome=="haz_s_stunt" ~ "C) Stunting",
-    outcome=="whz_ms_waste" ~ "D) Wasting",
-    outcome=="whz_s_waste" ~ "D) Wasting"
+    outcome=="haz_ms_stunt" ~ "c) Stunting",
+    outcome=="haz_s_stunt" ~ "c) Stunting",
+    outcome=="whz_ms_waste" ~ "d) Wasting",
+    outcome=="whz_s_waste" ~ "d) Wasting"
   )) %>% 
   mutate(outcome_severity = case_when(
     outcome=="haz_ms_stunt" ~ "Any stunting/wasting",

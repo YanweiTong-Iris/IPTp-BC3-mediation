@@ -10,7 +10,7 @@ source(paste0(here::here(), "/0-config.R"))
 
 IM_results =  readRDS(paste0(results_path,"IM-MO-stratified/intervention_mediator_main_results_stratified.RDS"))  %>% 
   filter(!mediator %in% c(
-    "birthweight", "GWC_Z"
+    "birthweight", "GWC_Z", "antibacterial_binary", "betalactam_binary"
   )) %>% 
   mutate(mediator = ifelse(mediator=="IL_10RB", "IL-10RB", mediator)) %>%
   mutate(mediator = ifelse(mediator=="MMP_1", "MMP-1", mediator)) %>%
@@ -103,7 +103,7 @@ binary_plot <- ggplot(IM_binary %>% mutate(mediator_remark = fct_rev(mediator_re
   theme(axis.title.y = element_blank(),
         legend.title = element_blank(),
         plot.title = element_text(hjust = -0.28, size = 12))+
-  ggtitle("A) Binary mediators")
+  ggtitle("a) Binary mediators")
 binary_plot
 
 
@@ -126,7 +126,7 @@ continuous_plot <- ggplot(IM_continuous %>% mutate(mediator_remark = fct_rev(med
   theme(axis.title.y = element_blank(),
         legend.title = element_blank(),
         plot.title = element_text(hjust = -0.35, size = 12)) +
-  ggtitle("B) Continuous mediators")
+  ggtitle("b) Continuous mediators")
 continuous_plot
 
 olink_plot <- ggplot(IM_Olink %>% mutate(mediator_remark = fct_rev(mediator_remark)), 
@@ -150,7 +150,7 @@ olink_plot <- ggplot(IM_Olink %>% mutate(mediator_remark = fct_rev(mediator_rema
   theme(axis.title.y = element_blank(),
         legend.title = element_blank(),
         plot.title = element_text(hjust = -0.22, size = 12)) +
-  ggtitle("C) Inflammation-related mediators")
+  ggtitle("c) Inflammation-related mediators")
 olink_plot
 
 
